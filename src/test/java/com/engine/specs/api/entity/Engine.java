@@ -3,15 +3,15 @@ package com.engine.specs.api.entity;
 public class Engine {
 	private String model;
     private int displacement;
-    private int valveAmount;
+    private int valve_amount;
     private String injectors;
-    private String pistonType;
+    private String piston_type;
     private String camshaft;
     private int power;
-    private boolean forcedInduction;
-    private String forcedInductionType;
-    private String forcedInductionModel;
-    private String fuelType;
+    private boolean forced_induction;
+    private String forced_induction_type;
+    private String forced_induction_model;
+    private String fuel_type;
     
     public static class Builder {
         private String model;
@@ -89,15 +89,15 @@ public class Engine {
     private Engine(Builder builder) {
         model = builder.model;
         displacement = builder.displacement;
-        valveAmount = builder.valveAmount;
+        valve_amount = builder.valveAmount;
         injectors = builder.injectors;
-        pistonType = builder.pistonType;
+        piston_type = builder.pistonType;
         camshaft = builder.camshaft;
         power = builder.power;
-        forcedInduction = builder.forcedInduction;
-        forcedInductionType = builder.forcedInductionType;
-        forcedInductionModel = builder.forcedInductionModel;
-        fuelType = builder.fuelType;
+        forced_induction = builder.forcedInduction;
+        forced_induction_type = builder.forcedInductionType;
+        forced_induction_model = builder.forcedInductionModel;
+        fuel_type = builder.fuelType;
     }
     
 	@Override
@@ -105,60 +105,60 @@ public class Engine {
 		return "Engine {" +
 				"'model': '" + model + "'" +
 				"'displacement': '" + displacement + "'" +
-				"'valveAmount': " + valveAmount + "'" +
+				"'valve_amount': " + valve_amount + "'" +
 				"'injectors': '" + injectors + "'" +
-				"'pistonType': '" + pistonType + "'" +
+				"'piston_type': '" + piston_type + "'" +
 				"'camshaft': '" + camshaft + "'" +
 				"'power': '" + power + "'" +
-				"'forcedInduction': '" + forcedInduction + "'" +
-				"'forcedInductionType': '" + forcedInductionType + "'" +
-				"'forcedInductionModel': '" + forcedInductionModel + "'" +
-				"'fuelType': '" + fuelType + "'" +
+				"'forced_induction': '" + forced_induction + "'" +
+				"'forced_inductionType': '" + forced_induction_type + "'" +
+				"'forced_inductionModel': '" + forced_induction_model + "'" +
+				"'fuel_type': '" + fuel_type + "'" +
 				"}";
 	}
 
-    public String getModel() {
+    public String getmodel() {
 	 	return model;
 	}
 
-	public int getDisplacement() {
+	public int getdisplacement() {
 		return displacement;
 	}
 
-	public int getValveAmount() {
-		return valveAmount;
+	public int getvalve_amount() {
+		return valve_amount;
 	}
 
-	public String getInjectors() {
+	public String getinjectors() {
 		return injectors;
 	}
 
 
-	public String getPistonType() {
-		return pistonType;
+	public String getpiston_type() {
+		return piston_type;
 	}
 
-	public String getCamshaft() {
+	public String getcamshaft() {
 		return camshaft;
 	}
 
-	public int getPower() {
+	public int getpower() {
 		return power;
 	}
 	
-	public boolean isForcedInduction() {
-		return forcedInduction;
+	public boolean isforced_induction() {
+		return forced_induction;
 	}
 
-	public String getForcedInductionType() {
-		return forcedInductionType;
+	public String getforced_induction_type() {
+		return forced_induction_type;
 	}
 
-	public String getForcedInductionModel() {
-		return forcedInductionModel;
+	public String getforced_induction_model() {
+		return forced_induction_model;
 	}
 
-	public String getFuelType() {
-		return fuelType;
+	public String getfuel_type() {
+		return fuel_type;
 	}
 }
