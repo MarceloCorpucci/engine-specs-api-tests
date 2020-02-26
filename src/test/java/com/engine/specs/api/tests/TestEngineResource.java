@@ -5,6 +5,8 @@ import static io.restassured.RestAssured.given;
 
 import com.engine.specs.api.entity.Engine;
 
+import io.restassured.RestAssured;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +43,12 @@ public class TestEngineResource {
 	
 	@After
 	public void tearDown() {
-		String engineId = "";
-		//delete(endPoint + "/engine/" + engineId);
+		String engineId = RestAssured.get(endPoint + "/engine/" + engine.getmodel())
+										.getBody()
+										.jsonPath()
+										.getString(
+												String.format("%s", "engine._id.$oid"));
+		
+		delete(endPoint + "/engine/" + engineId);
 	}
 }
