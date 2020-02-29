@@ -5,18 +5,18 @@ import static io.restassured.RestAssured.given;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.engine.specs.api.entity.Engine;
+import com.engine.specs.api.entity.builder.EngineBuilder;
 
 import io.restassured.RestAssured;
 
 public class TestDeleteEngineResource {
 	private final String endPoint = "http://localhost:5000/api";
-	private Engine engine;
+	private EngineBuilder engine;
 	private String engineId;
 	
 	@Before
 	public void setUp() {
-		engine = new Engine.Builder()
+		engine = new EngineBuilder.Builder()
 								.model("L61")
 								.displacement(2200)
 								.power(147)

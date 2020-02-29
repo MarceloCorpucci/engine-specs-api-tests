@@ -1,6 +1,6 @@
-package com.engine.specs.api.entity;
+package com.engine.specs.api.entity.builder;
 
-public class Engine {
+public class EngineBuilder {
 	private String model;
     private int displacement;
     private int valve_amount;
@@ -81,12 +81,12 @@ public class Engine {
         	return this;
         }
         
-        public Engine build() {
-			return new Engine(this);
+        public EngineBuilder build() {
+			return new EngineBuilder(this);
 		}
     }
     
-    private Engine(Builder builder) {
+    private EngineBuilder(Builder builder) {
         model = builder.model;
         displacement = builder.displacement;
         valve_amount = builder.valveAmount;

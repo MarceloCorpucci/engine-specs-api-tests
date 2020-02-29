@@ -3,8 +3,6 @@ package com.engine.specs.api.tests;
 import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.given;
 
-import com.engine.specs.api.entity.Engine;
-
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 
@@ -14,14 +12,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.engine.specs.api.entity.builder.EngineBuilder;
+
 public class TestEngineResource {
 	private final String endPoint = "http://localhost:5000/api";
-	private Engine engine;
+	private EngineBuilder engine;
 	private RequestSpecification request;
 	
 	@Before
 	public void setUp() {
-		engine = new Engine.Builder()
+		engine = new EngineBuilder.Builder()
 								.model("L61")
 								.displacement(2200)
 								.power(147)
