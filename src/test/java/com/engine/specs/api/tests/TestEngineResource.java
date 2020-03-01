@@ -54,20 +54,20 @@ public class TestEngineResource {
 				.post(endPoint + "/engine")
 			.then()
 				.assertThat()
-				.body("engine.displacement", equalTo(engine.getdisplacement()))
+				.body("engine.displacement", equalTo(engine.getDisplacement()))
 				.and()
-				.body("engine.forced_induction", equalTo(engine.isforced_induction()))
+				.body("engine.forced_induction", equalTo(engine.isForcedInduction()))
 				.and()
-				.body("engine.model", equalTo(engine.getmodel()))
+				.body("engine.model", equalTo(engine.getModel()))
 				.and()
-				.body("engine.power", equalTo(engine.getpower()))
+				.body("engine.power", equalTo(engine.getPower()))
 				.and()
-				.body("engine.valve_amount", equalTo(engine.getvalve_amount()));
+				.body("engine.valve_amount", equalTo(engine.getValveAmount()));
 	}
 	
 	@After
 	public void tearDown() {
-		String engineId = RestAssured.get(endPoint + "/engine/" + engine.getmodel())
+		String engineId = RestAssured.get(endPoint + "/engine/" + engine.getModel())
 										.getBody()
 										.jsonPath()
 										.getString(

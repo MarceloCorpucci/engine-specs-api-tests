@@ -1,17 +1,19 @@
 package com.engine.specs.api.entity.builder;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 public class EngineBuilder {
 	private String model;
     private int displacement;
-    private int valve_amount;
+    private int valveAmount;
     private String injectors;
-    private String piston_type;
+    private String pistonType;
     private String camshaft;
-    private int power;
-    private boolean forced_induction;
-    private String forced_induction_type;
-    private String forced_induction_model;
-    private String fuel_type;
+	private int power;
+    private boolean forcedInduction;
+    private String forcedInductionType;
+    private String forcedInductionModel;
+    private String fuelType;
     
     public static class Builder {
         private String model;
@@ -89,15 +91,15 @@ public class EngineBuilder {
     private EngineBuilder(Builder builder) {
         model = builder.model;
         displacement = builder.displacement;
-        valve_amount = builder.valveAmount;
+        valveAmount = builder.valveAmount;
         injectors = builder.injectors;
-        piston_type = builder.pistonType;
+        pistonType = builder.pistonType;
         camshaft = builder.camshaft;
         power = builder.power;
-        forced_induction = builder.forcedInduction;
-        forced_induction_type = builder.forcedInductionType;
-        forced_induction_model = builder.forcedInductionModel;
-        fuel_type = builder.fuelType;
+        forcedInduction = builder.forcedInduction;
+        forcedInductionType = builder.forcedInductionType;
+        forcedInductionModel = builder.forcedInductionModel;
+        fuelType = builder.fuelType;
     }
     
 	@Override
@@ -105,60 +107,70 @@ public class EngineBuilder {
 		return "Engine {" +
 				"'model': '" + model + "'" +
 				"'displacement': '" + displacement + "'" +
-				"'valve_amount': " + valve_amount + "'" +
+				"'valve_amount': " + valveAmount + "'" +
 				"'injectors': '" + injectors + "'" +
-				"'piston_type': '" + piston_type + "'" +
+				"'piston_type': '" + pistonType + "'" +
 				"'camshaft': '" + camshaft + "'" +
 				"'power': '" + power + "'" +
-				"'forced_induction': '" + forced_induction + "'" +
-				"'forced_inductionType': '" + forced_induction_type + "'" +
-				"'forced_inductionModel': '" + forced_induction_model + "'" +
-				"'fuel_type': '" + fuel_type + "'" +
+				"'forced_induction': '" + forcedInduction + "'" +
+				"'forced_inductionType': '" + forcedInductionType + "'" +
+				"'forced_inductionModel': '" + forcedInductionModel + "'" +
+				"'fuel_type': '" + fuelType + "'" +
 				"}";
 	}
 
-    public String getmodel() {
+	@JsonGetter("model")
+    public String getModel() {
 	 	return model;
 	}
 
-	public int getdisplacement() {
+	@JsonGetter("displacement")
+	public int getDisplacement() {
 		return displacement;
 	}
 
-	public int getvalve_amount() {
-		return valve_amount;
+	@JsonGetter("valve_amount")
+	public int getValveAmount() {
+		return valveAmount;
 	}
 
-	public String getinjectors() {
+	@JsonGetter("injectors")
+	public String getInjectors() {
 		return injectors;
 	}
 
-
-	public String getpiston_type() {
-		return piston_type;
+	@JsonGetter("piston_type")
+	public String getPistonType() {
+		return pistonType;
 	}
 
-	public String getcamshaft() {
+	@JsonGetter("camshaft")
+	public String getCamshaft() {
 		return camshaft;
 	}
 
-	public int getpower() {
+	@JsonGetter("power")
+	public int getPower() {
 		return power;
 	}
 	
-	public boolean isforced_induction() {
-		return forced_induction;
+	@JsonGetter("forced_induction")
+	public boolean isForcedInduction() {
+		return forcedInduction;
 	}
 
-	public String getforced_induction_type() {
-		return forced_induction_type;
+	@JsonGetter("forced_induction_type")
+	public String getForcedInductionType() {
+		return forcedInductionType;
 	}
 
-	public String getforced_induction_model() {
-		return forced_induction_model;
+	@JsonGetter("forced_induction_model")
+	public String getForcedInductionModel() {
+		return forcedInductionModel;
 	}
 
-	public String getfuel_type() {
-		return fuel_type;
+	@JsonGetter("fuel_type")
+	public String getfuelType() {
+		return fuelType;
 	}
 }
