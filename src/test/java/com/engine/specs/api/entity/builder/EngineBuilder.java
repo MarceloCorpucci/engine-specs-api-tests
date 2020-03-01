@@ -170,7 +170,7 @@ public class EngineBuilder {
 	}
 
 	@JsonGetter("fuel_type")
-	public String getfuelType() {
+	public String getFuelType() {
 		return fuelType;
 	}
 }

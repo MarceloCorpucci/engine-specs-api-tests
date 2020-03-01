@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.engine.specs.api.entity.builder.EngineBuilder;
 
-public class TestEngineResource {
+public class TestPostEngineResource {
 	private final String endPoint = "http://localhost:5000/api";
 	private EngineBuilder engine;
 	private RequestSpecification request;

@@ -1,15 +1,15 @@
 package com.engine.specs.api.entity.factory;
 
 public interface Engine {
-	public String getmodel();
-	public int getdisplacement();
-	public int getvalve_amount();
-	public String getinjectors();
-	public String getpiston_type();
-	public String getcamshaft();
-	public int getpower();
-	public boolean isforced_induction();
-	public String getforced_induction_type();
-	public String getforced_induction_model();
-	public String getfuel_type();
+	public String getModel();
+	public int getDisplacement();
+	public int getValveAmount();
+	public String getInjectors();
+	public String getPistonType();
+	public String getCamshaft();
+	public int getPower();
+	public boolean isForcedInduction();
+	public String getForcedInductionType();
+	public String getForcedInductionModel();
+	public String getFuelType();
 }

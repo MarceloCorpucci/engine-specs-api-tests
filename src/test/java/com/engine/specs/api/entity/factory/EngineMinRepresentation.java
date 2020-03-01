@@ -1,71 +1,113 @@
 package com.engine.specs.api.entity.factory;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 public class EngineMinRepresentation implements Engine {
-
+	private String model;
+    private int displacement;
+    private int valveAmount;
+    private String injectors;
+    private String pistonType;
+    private String camshaft;
+	private int power;
+    private boolean forcedInduction;
+    private String forcedInductionType;
+    private String forcedInductionModel;
+    private String fuelType;
+    
+	public EngineMinRepresentation(String model,
+								   int displacement,
+								   int valveAmount,
+								   String injectors,
+								   String pistonType,
+								   String camshaft,
+								   int power,
+								   boolean forcedInduction,
+								   String forcedInductionType,
+								   String forcedInductionModel,
+								   String fuelType) {
+		this.model = model;
+		this.displacement = displacement;
+		this.valveAmount = valveAmount;
+		this.injectors = injectors;
+		this.pistonType = pistonType;
+		this.camshaft = camshaft;
+		this.power = power;
+		this.forcedInduction = forcedInduction;
+		this.forcedInductionType = forcedInductionType;
+		this.forcedInductionModel = forcedInductionModel;
+		this.fuelType = fuelType;	
+	}
+	
 	@Override
-	public String getmodel() {
-		// TODO Auto-generated method stub
-		return null;
+	public String toString() {
+		return "Engine {" +
+				"'model': '" + model + "'" +
+				"'displacement': '" + displacement + "'" +
+				"'valve_amount': " + valveAmount + "'" +
+				"'injectors': '" + injectors + "'" +
+				"'piston_type': '" + pistonType + "'" +
+				"'camshaft': '" + camshaft + "'" +
+				"'power': '" + power + "'" +
+				"'forced_induction': '" + forcedInduction + "'" +
+				"'forced_inductionType': '" + forcedInductionType + "'" +
+				"'forced_inductionModel': '" + forcedInductionModel + "'" +
+				"'fuel_type': '" + fuelType + "'" +
+				"}";
 	}
 
-	@Override
-	public int getdisplacement() {
-		// TODO Auto-generated method stub
-		return 0;
+	@JsonGetter("model")
+    public String getModel() {
+	 	return model;
 	}
 
-	@Override
-	public int getvalve_amount() {
-		// TODO Auto-generated method stub
-		return 0;
+	@JsonGetter("displacement")
+	public int getDisplacement() {
+		return displacement;
 	}
 
-	@Override
-	public String getinjectors() {
-		// TODO Auto-generated method stub
-		return null;
+	@JsonGetter("valve_amount")
+	public int getValveAmount() {
+		return valveAmount;
 	}
 
-	@Override
-	public String getpiston_type() {
-		// TODO Auto-generated method stub
-		return null;
+	@JsonGetter("injectors")
+	public String getInjectors() {
+		return injectors;
 	}
 
-	@Override
-	public String getcamshaft() {
-		// TODO Auto-generated method stub
-		return null;
+	@JsonGetter("piston_type")
+	public String getPistonType() {
+		return pistonType;
 	}
 
-	@Override
-	public int getpower() {
-		// TODO Auto-generated method stub
-		return 0;
+	@JsonGetter("camshaft")
+	public String getCamshaft() {
+		return camshaft;
 	}
 
-	@Override
-	public boolean isforced_induction() {
-		// TODO Auto-generated method stub
-		return false;
+	@JsonGetter("power")
+	public int getPower() {
+		return power;
+	}
+	
+	@JsonGetter("forced_induction")
+	public boolean isForcedInduction() {
+		return forcedInduction;
 	}
 
-	@Override
-	public String getforced_induction_type() {
-		// TODO Auto-generated method stub
-		return null;
+	@JsonGetter("forced_induction_type")
+	public String getForcedInductionType() {
+		return forcedInductionType;
 	}
 
-	@Override
-	public String getforced_induction_model() {
-		// TODO Auto-generated method stub
-		return null;
+	@JsonGetter("forced_induction_model")
+	public String getForcedInductionModel() {
+		return forcedInductionModel;
 	}
 
-	@Override
-	public String getfuel_type() {
-		// TODO Auto-generated method stub
-		return null;
+	@JsonGetter("fuel_type")
+	public String getFuelType() {
+		return fuelType;
 	}
-
 }
