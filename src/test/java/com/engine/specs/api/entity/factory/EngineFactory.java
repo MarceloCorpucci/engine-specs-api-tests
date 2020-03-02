@@ -11,7 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EngineFactory {
 	private EngineMinRepresentation engineMinRepresentation;
-	private Map<String, Object> map;
+	Map<String, Object> map;
+	private Map<String, Object> elem;
 	
 	public void getJson() {
 		try {
@@ -20,8 +21,9 @@ public class EngineFactory {
 							.readValue(new URL("file:" + path), 
 									   new TypeReference<Map<String,Object>>(){});
 			
-			Object array = map.get("engines");
-			Object item = ((Map<String, Object>) array).get(0);
+			ArrayList<?> array = (ArrayList<?>) map.get("engines");
+			Map<String, Object> item = (Map<String, Object>) array.get(0);
+			elem = (Map<String, Object>) item.get("min");
 			
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
