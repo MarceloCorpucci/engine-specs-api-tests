@@ -12,16 +12,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.engine.specs.api.entity.builder.EngineBuilder;
+import com.engine.specs.api.entity.builder.Engine;
 
 public class TestPostEngineResource {
 	private final String endPoint = "http://localhost:5000/api";
-	private EngineBuilder engine;
+	private Engine engine;
 	private RequestSpecification request;
 	
 	@Before
 	public void setUp() {
-		engine = new EngineBuilder.Builder()
+		engine = new Engine.Builder()
 								.model("L61")
 								.displacement(2200)
 								.power(147)

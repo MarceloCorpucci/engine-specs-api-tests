@@ -2,7 +2,7 @@ package com.engine.specs.api.entity.builder;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 
-public class EngineBuilder {
+public class Engine {
 	private String model;
     private int displacement;
     private int valveAmount;
@@ -83,12 +83,12 @@ public class EngineBuilder {
         	return this;
         }
         
-        public EngineBuilder build() {
-			return new EngineBuilder(this);
+        public Engine build() {
+			return new Engine(this);
 		}
     }
     
-    private EngineBuilder(Builder builder) {
+    private Engine(Builder builder) {
         model = builder.model;
         displacement = builder.displacement;
         valveAmount = builder.valveAmount;
