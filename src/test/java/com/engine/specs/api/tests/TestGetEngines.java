@@ -19,19 +19,33 @@ import io.restassured.specification.RequestSpecification;
 
 public class TestGetEngines {
 	private String endPoint;
+	private String email;
+	private String password;
+	private String token;
+	
 	private Engine engine;
+	
 	private RequestSpecification request;
 	
 	@Before
 	public void setUp() throws IOException {
-//		Path resourcePath = Paths.get("src","test","resources", "env", "config");
 		String resourcePath = String.valueOf(System.getProperty("envProperties"));
-//		InputStream file = new FileInputStream(resourcePath.toAbsolutePath() + "/test.properties");
 		InputStream file = new FileInputStream(resourcePath);
-		Properties testProperties = new Properties();
-		testProperties.load(file);
+		Properties testParams = new Properties();
+		testParams.load(file);
 		
-		endPoint = testProperties.getProperty("endPoint");
+		endPoint = testParams.getProperty("endPoint");
+		email = testParams.getProperty("email");
+		password = testParams.getProperty("password");
+		
+		token = given()
+					.contentType("application/json")
+					.body("{ email: '" + email + "'\\npassword: '" + password + "'}")
+					.post(endPoint + "/users/login")
+					.getBody()
+					.jsonPath()
+					.getString(
+							String.format("%s", "access_token"));
 		
 		engine = new Engine.Builder()
 								.model("L61")
@@ -57,13 +71,17 @@ public class TestGetEngines {
 	
 	@Test
 	public void availableEnginesShouldHaveProperStatusCode() {
-		request
-			.when()
-				.post(endPoint + "/engine")
-			.then()
-				.assertThat()
-				.statusCode(201)
-				.log()
-				.all();
+//		request
+//			.when()
+//				.post(endPoint + "/engine")
+//			.then()
+//				.assertThat()
+//				.statusCode(201)
+//				.log()
+//				.all();
+		System.out.println(endPoint);
+		System.out.println(email);
+		System.out.println(password);
+		System.out.println(token);
 	}
 }
