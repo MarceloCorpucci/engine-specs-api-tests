@@ -2,21 +2,17 @@ package com.engine.specs.api.tests;
 
 import static io.restassured.RestAssured.given;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.entity.builder.User;
-
-import io.restassured.specification.RequestSpecification;
 
 public class TestGetEngines {
 	private String endPoint;
@@ -26,8 +22,7 @@ public class TestGetEngines {
 	private User user;
 	
 	private Engine engine;
-	
-	private RequestSpecification request;
+	private String engineId;
 	
 	@Before
 	public void setUp() throws IOException {
@@ -54,41 +49,43 @@ public class TestGetEngines {
 							String.format("%s", "access_token"));
 		
 		engine = new Engine.Builder()
-								.model("L61")
+								.model("L61-1")
 								.displacement(2200)
 								.power(147)
 								.forcedInduction(false)
 								.build();
 		
-		given()
-			.header("Authorization", "Bearer " + token)
-			.contentType("application/json")
-			.body(engine)
-			.post(endPoint + "/engine");
-		
-//		engineId = given()
-//				.contentType("application/json")
-//				.body(engine)
-//				.post(endPoint + "/engine")
-//				.getBody()
-//				.jsonPath()
-//				.getString(
-//						String.format("%s", "engine._id.$oid"));
+		engineId = given()
+					.header("Authorization", "Bearer " + token)
+					.contentType("application/json")
+					.body(engine)
+					.post(endPoint + "/engine")
+					.getBody()
+					.jsonPath()
+					.getString(
+							String.format("%s", "engine._id.$oid"));
+				
 		}
 	
 	@Test
 	public void availableEnginesShouldHaveProperStatusCode() {
-//		request
-//			.when()
-//				.post(endPoint + "/engine")
-//			.then()
-//				.assertThat()
-//				.statusCode(201)
-//				.log()
-//				.all();
-		System.out.println(endPoint);
-		System.out.println(email);
-		System.out.println(password);
-		System.out.println(token);
+		given()
+			.contentType("application/json")
+		.when()
+			.get(endPoint + "/engine/" + engineId)
+		.then()
+			.assertThat()
+			.statusCode(200)
+			.log()
+			.all();
+
+	}
+	
+	@After
+	public void tearDown() {
+		given()
+		.header("Authorization", "Bearer " + token)
+		.contentType("application/json")
+		.delete(endPoint + "/engine/" + engineId);
 	}
 }
