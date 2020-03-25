@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.engine.specs.api.entity.builder.Engine;
+import com.engine.specs.api.entity.builder.User;
 
 import io.restassured.specification.RequestSpecification;
 
@@ -22,6 +23,7 @@ public class TestGetEngines {
 	private String email;
 	private String password;
 	private String token;
+	private User user;
 	
 	private Engine engine;
 	
@@ -38,9 +40,13 @@ public class TestGetEngines {
 		email = testParams.getProperty("email");
 		password = testParams.getProperty("password");
 		
+		user = new User();
+		user.setEmail(email);
+		user.setPassword(password);
+				
 		token = given()
 					.contentType("application/json")
-					.body("{ email: '" + email + "'\\npassword: '" + password + "'}")
+					.body(user)
 					.post(endPoint + "/users/login")
 					.getBody()
 					.jsonPath()
@@ -55,6 +61,7 @@ public class TestGetEngines {
 								.build();
 		
 		given()
+			.header("Authorization", "Bearer " + token)
 			.contentType("application/json")
 			.body(engine)
 			.post(endPoint + "/engine");
