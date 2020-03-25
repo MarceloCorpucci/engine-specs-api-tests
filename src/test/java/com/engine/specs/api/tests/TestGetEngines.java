@@ -14,8 +14,9 @@ import org.junit.Test;
 import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.entity.builder.User;
 
+import io.restassured.RestAssured;
+
 public class TestGetEngines {
-	private String endPoint;
 	private String email;
 	private String password;
 	private String token;
@@ -31,9 +32,11 @@ public class TestGetEngines {
 		Properties testParams = new Properties();
 		testParams.load(file);
 		
-		endPoint = testParams.getProperty("endPoint");
 		email = testParams.getProperty("email");
 		password = testParams.getProperty("password");
+		
+	    RestAssured.baseURI = testParams.getProperty("endPoint");;
+	    RestAssured.port = 443;
 		
 		user = new User();
 		user.setEmail(email);
@@ -42,7 +45,7 @@ public class TestGetEngines {
 		token = given()
 					.contentType("application/json")
 					.body(user)
-					.post(endPoint + "/users/login")
+					.post("/users/login")
 					.getBody()
 					.jsonPath()
 					.getString(
@@ -59,7 +62,7 @@ public class TestGetEngines {
 					.header("Authorization", "Bearer " + token)
 					.contentType("application/json")
 					.body(engine)
-					.post(endPoint + "/engine")
+					.post("/engine")
 					.getBody()
 					.jsonPath()
 					.getString(
@@ -72,7 +75,7 @@ public class TestGetEngines {
 		given()
 			.contentType("application/json")
 		.when()
-			.get(endPoint + "/engine/" + engineId)
+			.get("/engine/" + engineId)
 		.then()
 			.assertThat()
 			.statusCode(200)
@@ -86,6 +89,6 @@ public class TestGetEngines {
 		given()
 		.header("Authorization", "Bearer " + token)
 		.contentType("application/json")
-		.delete(endPoint + "/engine/" + engineId);
+		.delete("/engine/" + engineId);
 	}
 }
