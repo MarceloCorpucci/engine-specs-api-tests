@@ -1,4 +1,4 @@
-package com.engine.specs.api.mediator;
+package com.engine.specs.api.mediator.component;
 
 import static io.restassured.RestAssured.with;
 
