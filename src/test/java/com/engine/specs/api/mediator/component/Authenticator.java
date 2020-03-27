@@ -12,7 +12,10 @@ public class Authenticator {
 	
 	public Authenticator() {
 		this.user = new User();
-		this.mediator = new ScenarioMediator();
+	}
+	
+	public void setMediator(ScenarioMediator mediator) {
+		this.mediator = mediator;
 	}
 	
 	public Authenticator getToken() {

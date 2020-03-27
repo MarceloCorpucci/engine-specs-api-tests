@@ -3,10 +3,16 @@ package com.engine.specs.api.mediator.component;
 import static io.restassured.RestAssured.with;
 
 import com.engine.specs.api.entity.builder.Engine;
+import com.engine.specs.api.mediator.ScenarioMediator;
 
 public class DataInjector {
 	//TODO: Change implementations to use generics.
+	private ScenarioMediator mediator;
 	private String token;
+	
+	public void setMediator(ScenarioMediator mediator) {
+		this.mediator = mediator;
+	}
 	
 	public DataInjector usingToken(String token) {
 		this.token = token;

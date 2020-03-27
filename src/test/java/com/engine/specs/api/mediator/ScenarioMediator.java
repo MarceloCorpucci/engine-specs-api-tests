@@ -13,7 +13,7 @@ import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 
 public class ScenarioMediator {
-	private Authenticator authenticator = new Authenticator();
+	private Authenticator authenticator;
 	private DataInjector dataInjector;
 	private DataCleaner dataCleaner;
 	
