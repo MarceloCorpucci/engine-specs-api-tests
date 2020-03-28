@@ -1,9 +1,10 @@
 package com.engine.specs.api.mediator.component;
 
-import java.io.IOException;
-
 import com.engine.specs.api.entity.builder.User;
 import com.engine.specs.api.mediator.ScenarioMediator;
+
+import io.restassured.RestAssured;
+import static io.restassured.RestAssured.with;
 
 public class Authenticator {
 	//TODO: Pending to add validations on each method and exception management.
@@ -27,14 +28,19 @@ public class Authenticator {
 		return this;
 	}
 	
-	public String and(String password) throws IOException {
+	public Authenticator and(String password) {
 		this.user.setPassword(password);
+		return this;
+	}
+	
+	public String against(String endPoint) {
+		RestAssured.baseURI = endPoint;
 		return this.authenticate(user);
 	}
 	
 	//We can hide this rest assured impl into another indirection.
-	private String authenticate(User user) throws IOException {
-		return mediator.request()
+	private String authenticate(User user) {
+		return with()
 				.contentType("application/json")
 				.body(user)
 				.post("/users/login")

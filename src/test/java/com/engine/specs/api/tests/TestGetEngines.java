@@ -10,6 +10,10 @@ import org.junit.Test;
 
 import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.mediator.ScenarioMediator;
+import com.engine.specs.api.mediator.component.Authenticator;
+import com.engine.specs.api.mediator.component.DataCleaner;
+import com.engine.specs.api.mediator.component.DataInjector;
+import com.engine.specs.api.mediator.component.ParamLoader;
 
 public class TestGetEngines {
 	private ScenarioMediator mediator;
@@ -20,7 +24,17 @@ public class TestGetEngines {
 	
 	@Before
 	public void setUp() throws IOException {
+		ParamLoader paramLoader = new ParamLoader();
+		Authenticator authenticator = new Authenticator();
+		DataInjector dataInjector = new DataInjector();
+		DataCleaner dataCleaner = new DataCleaner();
+		
 		mediator = new ScenarioMediator();
+		mediator.setParamLoader(paramLoader);
+		mediator.setAuthenticator(authenticator);
+		mediator.setDataInjector(dataInjector);
+		mediator.setDataCleaner(dataCleaner);
+		
 		token = mediator.authenticate();
 		
 		engine = new Engine.Builder()

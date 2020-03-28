@@ -1,42 +1,39 @@
 package com.engine.specs.api.mediator;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
 import com.engine.specs.api.mediator.component.DataInjector;
-
-import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
+import com.engine.specs.api.mediator.component.ParamLoader;
 
 public class ScenarioMediator {
+	private ParamLoader paramLoader;
 	private Authenticator authenticator;
 	private DataInjector dataInjector;
 	private DataCleaner dataCleaner;
 	
-	public Properties loadTestParams() throws IOException {
-		String resourcePath = String.valueOf(System.getProperty("envProperties"));
-		InputStream file = new FileInputStream(resourcePath);
-		Properties testParams = new Properties();
-		testParams.load(file);
-		
-		return testParams;
+	public void setParamLoader(ParamLoader paramLoader) {
+		this.paramLoader = paramLoader;
 	}
 	
-	public RequestSpecification request() throws IOException {
-		RestAssured.baseURI = loadTestParams().getProperty("endPoint");
-		
-		return RestAssured.requestSpecification;
+	public void setAuthenticator(Authenticator authenticator) {
+		this.authenticator = authenticator;
+		this.authenticator.setMediator(this);
+	}
+
+	public void setDataInjector(DataInjector dataInjector) {
+		this.dataInjector = dataInjector;
+	}
+
+	public void setDataCleaner(DataCleaner dataCleaner) {
+		this.dataCleaner = dataCleaner;
 	}
 	
-	public String authenticate() throws IOException {
-		return authenticator
-					.getToken()
-					.basedOn(loadTestParams().getProperty("email"))
-					.and(loadTestParams().getProperty("password"));
+	public String authenticate() {
+		return this.authenticator
+						.getToken()
+						.basedOn(paramLoader.properties().getProperty("email"))
+						.and(paramLoader.properties().getProperty("password"))
+						.against(paramLoader.properties().getProperty("endPoint"));
 		
 	}
 	
