@@ -14,13 +14,12 @@ public class DataInjector {
 		this.mediator = mediator;
 	}
 	
-	public DataInjector usingToken(String token) {
-		this.token = token;
-		return this;
-	}
 	
 	public String inject(Engine engine) {
 		//Add validation in case of not invoking useToken first.
+		
+		token = mediator.authenticate();
+		
 		return with()
 				.header("Authorization", "Bearer " + token)
 				.contentType("application/json")

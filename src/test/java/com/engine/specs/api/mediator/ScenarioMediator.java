@@ -1,5 +1,6 @@
 package com.engine.specs.api.mediator;
 
+import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
 import com.engine.specs.api.mediator.component.DataInjector;
@@ -22,6 +23,7 @@ public class ScenarioMediator {
 
 	public void setDataInjector(DataInjector dataInjector) {
 		this.dataInjector = dataInjector;
+		this.dataInjector.setMediator(this);
 	}
 
 	public void setDataCleaner(DataCleaner dataCleaner) {
@@ -37,5 +39,9 @@ public class ScenarioMediator {
 		
 	}
 	
+	//Change to Generics
+	public String inject(Engine engine) {
+		return this.dataInjector.inject(engine);
+	}
 	
 }

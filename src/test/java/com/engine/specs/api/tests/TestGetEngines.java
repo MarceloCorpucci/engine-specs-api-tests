@@ -23,17 +23,8 @@ public class TestGetEngines {
 	private String engineId;
 	
 	@Before
-	public void setUp() throws IOException {
-		ParamLoader paramLoader = new ParamLoader();
-		Authenticator authenticator = new Authenticator();
-		DataInjector dataInjector = new DataInjector();
-		DataCleaner dataCleaner = new DataCleaner();
-		
-		mediator = new ScenarioMediator();
-		mediator.setParamLoader(paramLoader);
-		mediator.setAuthenticator(authenticator);
-		mediator.setDataInjector(dataInjector);
-		mediator.setDataCleaner(dataCleaner);
+	public void setUp() throws IOException {	
+		this.initEntities();
 		
 		token = mediator.authenticate();
 		
@@ -44,15 +35,7 @@ public class TestGetEngines {
 								.forcedInduction(false)
 								.build();
 		
-		engineId = given()
-					.header("Authorization", "Bearer " + token)
-					.contentType("application/json")
-					.body(engine)
-					.post("http://localhost:5000/api/engine")
-					.getBody()
-					.jsonPath()
-					.getString(
-							String.format("%s", "engine._id.$oid"));
+		engineId = mediator.inject(engine);
 				
 		}
 	
@@ -67,7 +50,6 @@ public class TestGetEngines {
 			.statusCode(200)
 			.log()
 			.all();
-
 	}
 	
 	@After
@@ -76,5 +58,18 @@ public class TestGetEngines {
 		.header("Authorization", "Bearer " + token)
 		.contentType("application/json")
 		.delete("http://localhost:5000/api/engine/" + engineId);
+	}
+	
+	private void initEntities() {
+		ParamLoader paramLoader = new ParamLoader();
+		Authenticator authenticator = new Authenticator();
+		DataInjector dataInjector = new DataInjector();
+		DataCleaner dataCleaner = new DataCleaner();
+		
+		mediator = new ScenarioMediator();
+		mediator.setParamLoader(paramLoader);
+		mediator.setAuthenticator(authenticator);
+		mediator.setDataInjector(dataInjector);
+		mediator.setDataCleaner(dataCleaner);
 	}
 }
