@@ -6,16 +6,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.engine.specs.api.entity.builder.Engine;
-
-import io.restassured.RestAssured;
+import com.engine.specs.api.mediator.ScenarioMediator;
+import com.engine.specs.api.mediator.component.Authenticator;
+import com.engine.specs.api.mediator.component.DataCleaner;
+import com.engine.specs.api.mediator.component.DataInjector;
+import com.engine.specs.api.mediator.component.ParamLoader;
 
 public class TestDeleteEngineResource {
-	private final String endPoint = "http://localhost:5000/api";
+	private ScenarioMediator mediator;
+	
 	private Engine engine;
 	private String engineId;
 	
 	@Before
 	public void setUp() {
+		this.initEntities();
+		
 		engine = new Engine.Builder()
 								.model("L61")
 								.displacement(2200)
@@ -23,23 +29,31 @@ public class TestDeleteEngineResource {
 								.forcedInduction(false)
 								.build();
 		
-		engineId = given()
-					.contentType("application/json")
-					.body(engine)
-					.post(endPoint + "/engine")
-					.getBody()
-					.jsonPath()
-					.getString(
-							String.format("%s", "engine._id.$oid"));
+		engineId = mediator.inject(engine);
 	}
 	
 	@Test
 	public void engineDeletedShouldHaveProperStatusCode() {
-			RestAssured
-				.when()
-					.delete(endPoint + "/engine/" + engineId)
-				.then()
-					.assertThat()
-					.statusCode(204);
+		given()
+			.contentType("application/json")
+			.header("Authorization", "Bearer " + mediator.authenticate())
+		.when()
+			.delete(mediator.testParams().getProperty("endPoint") + "/engine/" + engineId)
+		.then()
+			.assertThat()
+			.statusCode(204);
+	}
+	
+	private void initEntities() {
+		ParamLoader paramLoader = new ParamLoader();
+		Authenticator authenticator = new Authenticator();
+		DataInjector dataInjector = new DataInjector();
+		DataCleaner dataCleaner = new DataCleaner();
+		
+		mediator = new ScenarioMediator();
+		mediator.setParamLoader(paramLoader);
+		mediator.setAuthenticator(authenticator);
+		mediator.setDataInjector(dataInjector);
+		mediator.setDataCleaner(dataCleaner);
 	}
 }

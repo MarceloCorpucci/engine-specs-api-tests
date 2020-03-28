@@ -41,7 +41,7 @@ public class TestGetEngines {
 		given()
 			.contentType("application/json")
 		.when()
-			.get("http://localhost:5000/api/engine/" + engineId)
+			.get(mediator.testParams().getProperty("endPoint") + "/engine/" + engineId)
 		.then()
 			.assertThat()
 			.statusCode(200)
