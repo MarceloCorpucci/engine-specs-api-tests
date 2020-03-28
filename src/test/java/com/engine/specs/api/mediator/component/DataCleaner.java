@@ -13,15 +13,13 @@ public class DataCleaner {
 		this.mediator = mediator;
 	}
 	
-	public DataCleaner usingToken(String token) {
-		this.token = token;
-		return this;
-	}
-	
-	public void cleanUp(String id) {
-		with()
-		.header("Authorization", "Bearer " + token)
-		.contentType("application/json")
-		.delete("/engine/" + id);
+	public int cleanUp(String id) {
+		token = mediator.authenticate();
+		
+		return with()
+				.header("Authorization", "Bearer " + token)
+				.contentType("application/json")
+				.delete("/engine/" + id)
+				.getStatusCode();
 	}
 }

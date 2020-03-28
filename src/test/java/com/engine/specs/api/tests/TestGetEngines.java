@@ -17,7 +17,6 @@ import com.engine.specs.api.mediator.component.ParamLoader;
 
 public class TestGetEngines {
 	private ScenarioMediator mediator;
-	private String token;
 	
 	private Engine engine;
 	private String engineId;
@@ -25,8 +24,6 @@ public class TestGetEngines {
 	@Before
 	public void setUp() throws IOException {	
 		this.initEntities();
-		
-		token = mediator.authenticate();
 		
 		engine = new Engine.Builder()
 								.model("L61-1")
@@ -54,10 +51,7 @@ public class TestGetEngines {
 	
 	@After
 	public void tearDown() {
-		given()
-		.header("Authorization", "Bearer " + token)
-		.contentType("application/json")
-		.delete("http://localhost:5000/api/engine/" + engineId);
+		mediator.cleanUp(engineId);
 	}
 	
 	private void initEntities() {

@@ -1,5 +1,7 @@
 package com.engine.specs.api.mediator;
 
+import java.util.Properties;
+
 import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
@@ -28,20 +30,23 @@ public class ScenarioMediator {
 
 	public void setDataCleaner(DataCleaner dataCleaner) {
 		this.dataCleaner = dataCleaner;
+		this.dataCleaner.setMediator(this);
+	}
+	
+	public Properties testParams() {
+		return paramLoader.properties();
 	}
 	
 	public String authenticate() {
-		return this.authenticator
-						.getToken()
-						.basedOn(paramLoader.properties().getProperty("email"))
-						.and(paramLoader.properties().getProperty("password"))
-						.against(paramLoader.properties().getProperty("endPoint"));
-		
+		return this.authenticator.authenticate();	
 	}
 	
-	//Change to Generics
+	//TODO: Change to Generics
 	public String inject(Engine engine) {
 		return this.dataInjector.inject(engine);
 	}
 	
+	public int cleanUp(String id) {
+		return this.dataCleaner.cleanUp(id);
+	}
 }

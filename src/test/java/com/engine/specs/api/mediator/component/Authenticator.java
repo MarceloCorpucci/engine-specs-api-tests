@@ -7,7 +7,6 @@ import io.restassured.RestAssured;
 import static io.restassured.RestAssured.with;
 
 public class Authenticator {
-	//TODO: Pending to add validations on each method and exception management.
 	private User user;
 	private ScenarioMediator mediator;
 	
@@ -19,27 +18,12 @@ public class Authenticator {
 		this.mediator = mediator;
 	}
 	
-	public Authenticator getToken() {
-		return this;
-	}
-	
-	public Authenticator basedOn(String email) {
-		this.user.setEmail(email);
-		return this;
-	}
-	
-	public Authenticator and(String password) {
-		this.user.setPassword(password);
-		return this;
-	}
-	
-	public String against(String endPoint) {
-		RestAssured.baseURI = endPoint;
-		return this.authenticate(user);
-	}
-	
 	//We can hide this rest assured impl into another indirection.
-	private String authenticate(User user) {
+	public String authenticate() {
+		RestAssured.baseURI = mediator.testParams().getProperty("endPoint");
+		user.setEmail(mediator.testParams().getProperty("email"));
+		user.setPassword(mediator.testParams().getProperty("password"));
+		
 		return with()
 				.contentType("application/json")
 				.body(user)
