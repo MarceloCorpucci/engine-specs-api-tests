@@ -41,12 +41,11 @@ public class ScenarioMediator {
 		return this.authenticator.authenticate();	
 	}
 	
-	//TODO: Change to Generics
-	public String inject(Engine engine) {
-		return this.dataInjector.inject(engine);
+	public String inject(Engine engine, String resource) {
+		return this.dataInjector.inject(engine, resource);
 	}
 	
-	public int cleanUp(String id) {
-		return this.dataCleaner.cleanUp(id);
+	public int cleanUp(String id, String resource) {
+		return this.dataCleaner.cleanUp(id, resource);
 	}
 }

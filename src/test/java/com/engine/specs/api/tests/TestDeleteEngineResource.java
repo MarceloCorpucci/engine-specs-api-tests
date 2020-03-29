@@ -29,7 +29,7 @@ public class TestDeleteEngineResource {
 								.forcedInduction(false)
 								.build();
 		
-		engineId = mediator.inject(engine);
+		engineId = mediator.inject(engine, "engine");
 	}
 	
 	@Test

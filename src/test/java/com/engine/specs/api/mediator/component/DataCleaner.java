@@ -5,7 +5,6 @@ import static io.restassured.RestAssured.with;
 import com.engine.specs.api.mediator.ScenarioMediator;
 
 public class DataCleaner {
-	//TODO Change this to use generics
 	private ScenarioMediator mediator;
 	private String token;
 	
@@ -13,13 +12,13 @@ public class DataCleaner {
 		this.mediator = mediator;
 	}
 	
-	public int cleanUp(String id) {
+	public int cleanUp(String id, String resource) {
 		token = mediator.authenticate();
 		
 		return with()
 				.header("Authorization", "Bearer " + token)
 				.contentType("application/json")
-				.delete("/engine/" + id)
+				.delete("/" + resource + "/" + id)
 				.getStatusCode();
 	}
 }

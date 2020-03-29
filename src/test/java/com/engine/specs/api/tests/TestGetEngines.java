@@ -32,7 +32,7 @@ public class TestGetEngines {
 								.forcedInduction(false)
 								.build();
 		
-		engineId = mediator.inject(engine);
+		engineId = mediator.inject(engine, "engine");
 				
 		}
 	
@@ -51,7 +51,7 @@ public class TestGetEngines {
 	
 	@After
 	public void tearDown() {
-		mediator.cleanUp(engineId);
+		mediator.cleanUp(engineId, "engine");
 	}
 	
 	private void initEntities() {
