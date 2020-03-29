@@ -1,11 +1,6 @@
 package com.engine.specs.api.tests;
 
-import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.given;
-
-import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.After;
@@ -13,14 +8,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.engine.specs.api.entity.builder.Engine;
+import com.engine.specs.api.mediator.ScenarioMediator;
+import com.engine.specs.api.mediator.component.Authenticator;
+import com.engine.specs.api.mediator.component.DataCleaner;
+import com.engine.specs.api.mediator.component.ParamLoader;
+
+import io.restassured.specification.RequestSpecification;
 
 public class TestPostEngineResource {
-	private final String endPoint = "http://localhost:5000/api";
-	private Engine engine;
+	private ScenarioMediator mediator;
 	private RequestSpecification request;
+	private Engine engine;
 	
 	@Before
 	public void setUp() {
+		this.initEntities();
+		
 		engine = new Engine.Builder()
 								.model("L61")
 								.displacement(2200)
@@ -30,6 +33,7 @@ public class TestPostEngineResource {
 		
 		request = given()
 					.contentType("application/json")
+					.header("Authorization", "Bearer " + mediator.authenticate())
 					.body(engine)
 					.log()
 					.all();
@@ -39,7 +43,7 @@ public class TestPostEngineResource {
 	public void engineCreatedShouldHaveProperStatusCode() {
 		request
 			.when()
-				.post(endPoint + "/engine")
+				.post(mediator.testParams().getProperty("endPoint") + "/engine")
 			.then()
 				.assertThat()
 				.statusCode(201)
@@ -51,7 +55,7 @@ public class TestPostEngineResource {
 	public void engineCreatedShouldShowItsContent() {
 		request
 			.when()
-				.post(endPoint + "/engine")
+				.post(mediator.testParams().getProperty("endPoint") + "/engine")
 			.then()
 				.assertThat()
 				.body("engine.displacement", equalTo(engine.getDisplacement()))
@@ -67,12 +71,17 @@ public class TestPostEngineResource {
 	
 	@After
 	public void tearDown() {
-		String engineId = RestAssured.get(endPoint + "/engine/" + engine.getModel())
-										.getBody()
-										.jsonPath()
-										.getString(
-												String.format("%s", "engine._id.$oid"));
+		mediator.cleanUp("model", engine.getModel(), "engine");
+	}
+	
+	private void initEntities() {
+		ParamLoader paramLoader = new ParamLoader();
+		Authenticator authenticator = new Authenticator();
+		DataCleaner dataCleaner = new DataCleaner();
 		
-		delete(endPoint + "/engine/" + engineId);
+		mediator = new ScenarioMediator();
+		mediator.setParamLoader(paramLoader);
+		mediator.setAuthenticator(authenticator);
+		mediator.setDataCleaner(dataCleaner);
 	}
 }

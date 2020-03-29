@@ -10,6 +10,24 @@ public class DataCleaner {
 	
 	public void setMediator(ScenarioMediator mediator) {
 		this.mediator = mediator;
+		token = mediator.authenticate();
+	}
+	
+	public int cleanUp(String property, String value, String resource) {
+		
+		String id = with()
+						.contentType("application/json")
+						.get("/" + resource + "/" + property + "/" + value)
+						.getBody()
+						.jsonPath()
+						.getString(
+							String.format("%s", resource + "._id.$oid"));
+				
+		return with()
+				.header("Authorization", "Bearer " + token)
+				.contentType("application/json")
+				.delete("/" + resource + "/" + id)
+				.getStatusCode();
 	}
 	
 	public int cleanUp(String id, String resource) {

@@ -48,4 +48,8 @@ public class ScenarioMediator {
 	public int cleanUp(String id, String resource) {
 		return this.dataCleaner.cleanUp(id, resource);
 	}
+	
+	public int cleanUp(String property, String value, String resource) {
+		return this.dataCleaner.cleanUp(property, value, resource);
+	}
 }
