@@ -1,0 +1,13 @@
+{
+    "model": "AP-1800",
+    "displacement": 1781,
+    "valve_amount": 8,
+    "injectors": "standard",
+    "piston_type": "cast",
+    "camshaft": "standard",
+    "power": 112,
+    "forced_induction": false,
+    "forced_induction_type": "turbo",
+    "forced_induction_model": "K16",
+    "fuel_type": "gasoline"
+}
