@@ -6,7 +6,7 @@
     "piston_type": "cast",
     "camshaft": "standard",
     "power": 112,
-    "forced_induction": false,
+    "forced_induction": true,
     "forced_induction_type": "turbo",
     "forced_induction_model": "K16",
     "fuel_type": "gasoline"

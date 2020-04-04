@@ -70,12 +70,10 @@ public class Engine {
 		return fuelType;
 	}
 	
-	@JsonGetter("mode")
 	public void setModel(String model) {
 		this.model = model;
 	}
 	
-	@JsonGetter("displacement")
 	public void setDisplacement(int displacement) {
 		this.displacement = displacement;
 	}

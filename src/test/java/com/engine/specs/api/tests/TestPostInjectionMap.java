@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.engine.specs.api.entity.factory.Ecu;
+import com.engine.specs.api.entity.factory.EcuLoader;
 import com.engine.specs.api.entity.factory.Engine;
 import com.engine.specs.api.entity.factory.EngineLoader;
 import com.engine.specs.api.entity.factory.EntityLoader;
@@ -15,8 +17,8 @@ public class TestPostInjectionMap {
 	@Before
 	public void setUp() {
 		this.initEntities();
-		//Need an engine
-		//an ecu
+		//Need an engine --> Done
+		//an ecu --> Done
 		//an user
 	}
 	
@@ -24,7 +26,10 @@ public class TestPostInjectionMap {
 	public void injectionMapCreatedShouldHaveProperStatusCode() {
 		EntityLoader<Engine> loader = new EngineLoader();
 		Engine engine = loader.get("full_repr").fromJsonResource();
-		System.out.println(engine);
+
+		EntityLoader<Ecu> ecuLoader = new EcuLoader();
+		Ecu ecu = ecuLoader.get("default").fromJsonResource(); 
+		System.out.println("a");
 	}
 	
 	@After

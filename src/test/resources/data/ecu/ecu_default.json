@@ -1,0 +1,8 @@
+{
+    "model": "VirtualEcu-1",
+    "firmware": "v0.1",
+    "date_added": "2020-01-01",
+    "engine": {"model": "AP-1800"},
+    "warning_preset": {"name": "XXX"},
+    "user": {"email": "user1@gmail.com"} 
+}
