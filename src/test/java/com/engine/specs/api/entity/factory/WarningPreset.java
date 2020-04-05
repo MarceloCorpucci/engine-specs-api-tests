@@ -7,7 +7,7 @@ public class WarningPreset {
 	private int ect_warning;
 	private int oil_temp_warning;
 	private int rpm_warning;
-	private Engine engine;
+	private EngineEntity engine;
 	
 	@JsonGetter("name")
 	public String getName() {
@@ -46,11 +46,11 @@ public class WarningPreset {
 	}
 	
 	@JsonGetter("engine")
-	public Engine getEngine() {
+	public EngineEntity getEngine() {
 		return engine;
 	}
 	
-	public void setEngine(Engine engine) {
+	public void setEngine(EngineEntity engine) {
 		this.engine = engine;
 	}
 }

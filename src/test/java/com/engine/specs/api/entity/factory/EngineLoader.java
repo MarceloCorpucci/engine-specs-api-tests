@@ -8,23 +8,23 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class EngineLoader implements EntityLoader<Engine> {
+public class EngineLoader implements DomainEntityLoader<EngineEntity> {
 	private String type;
 	
-	public EntityLoader<Engine> get(String type) {
+	public DomainEntityLoader<EngineEntity> get(String type) {
 		this.type = type;
 		return this;
 	}
 	
-	public Engine fromJsonResource() {
+	public EngineEntity fromJsonResource() {
        ClassLoader classLoader = getClass().getClassLoader();
        ObjectMapper objectMapper = new ObjectMapper();
-       Engine engine = new Engine();
+       EngineEntity engine = new EngineEntity();
        
-       URL resource = classLoader.getResource("data/engine/engine_" + type  + ".json");
+       URL resource = classLoader.getResource("data/engine/" + type  + ".json");
         
        try {
-    	   engine = objectMapper.readValue(new File(resource.getFile()), Engine.class);
+    	   engine = objectMapper.readValue(new File(resource.getFile()), EngineEntity.class);
 		
        } catch (JsonParseException e) {
     	   e.printStackTrace();

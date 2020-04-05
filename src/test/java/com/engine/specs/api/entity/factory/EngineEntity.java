@@ -2,7 +2,7 @@ package com.engine.specs.api.entity.factory;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 
-public class Engine {
+public class EngineEntity {
 	private String model;
 	private int displacement;
 	private int valveAmount;

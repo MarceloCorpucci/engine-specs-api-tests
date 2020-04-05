@@ -2,11 +2,11 @@ package com.engine.specs.api.entity.factory;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 
-public class Ecu {
+public class EcuEntity {
 	private String model;
 	private String firmware;
 	private String dateAdded;
-	private Engine engine;
+	private EngineEntity engine;
 	private WarningPreset warningPreset;
 	private User user;
 	
@@ -38,11 +38,11 @@ public class Ecu {
 	}
 	
 	@JsonGetter("engine")
-	public Engine getEngine() {
+	public EngineEntity getEngine() {
 		return engine;
 	}
 	
-	public void setEngine(Engine engine) {
+	public void setEngine(EngineEntity engine) {
 		this.engine = engine;
 	}
 	

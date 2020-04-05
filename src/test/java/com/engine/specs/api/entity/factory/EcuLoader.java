@@ -8,23 +8,23 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class EcuLoader implements EntityLoader<Ecu> {
+public class EcuLoader implements DomainEntityLoader<EcuEntity> {
 	private String type;
 
-	public EntityLoader<Ecu> get(String type) {
+	public DomainEntityLoader<EcuEntity> get(String type) {
 		this.type = type;
 		return this;
 	}
 
-	public Ecu fromJsonResource() {
+	public EcuEntity fromJsonResource() {
        ClassLoader classLoader = getClass().getClassLoader();
        ObjectMapper objectMapper = new ObjectMapper();
-       Ecu ecu = new Ecu();
+       EcuEntity ecu = new EcuEntity();
        
-       URL resource = classLoader.getResource("data/ecu/ecu_" + type  + ".json");
+       URL resource = classLoader.getResource("data/ecu/" + type  + ".json");
         
        try {
-    	   ecu = objectMapper.readValue(new File(resource.getFile()), Ecu.class);
+    	   ecu = objectMapper.readValue(new File(resource.getFile()), EcuEntity.class);
 		
        } catch (JsonParseException e) {
     	   e.printStackTrace();

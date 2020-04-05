@@ -4,32 +4,31 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.engine.specs.api.entity.factory.Ecu;
-import com.engine.specs.api.entity.factory.EcuLoader;
-import com.engine.specs.api.entity.factory.Engine;
-import com.engine.specs.api.entity.factory.EngineLoader;
-import com.engine.specs.api.entity.factory.EntityLoader;
+import com.engine.specs.api.entity.factory.DomainEntityFactory;
+import com.engine.specs.api.entity.factory.EngineEntity;
 import com.engine.specs.api.mediator.ScenarioMediator;
+import com.engine.specs.api.mediator.component.DataInjector;
+import com.engine.specs.api.mediator.component.ParamLoader;
 
 public class TestPostInjectionMap {
+	private DomainEntityFactory entityFactory;
+	private EngineEntity engine;
 	private ScenarioMediator mediator;
 	
 	@Before
 	public void setUp() {
 		this.initEntities();
-		//Need an engine --> Done
-		//an ecu --> Done
-		//an user
+		
+		engine = entityFactory
+					.createEntity("engine_min_repr")
+					.getEngine();
+		
+		mediator.inject(engine, "engine");
 	}
 	
 	@Test
 	public void injectionMapCreatedShouldHaveProperStatusCode() {
-		EntityLoader<Engine> loader = new EngineLoader();
-		Engine engine = loader.get("full_repr").fromJsonResource();
 
-		EntityLoader<Ecu> ecuLoader = new EcuLoader();
-		Ecu ecu = ecuLoader.get("default").fromJsonResource(); 
-		System.out.println("a");
 	}
 	
 	@After
@@ -38,6 +37,13 @@ public class TestPostInjectionMap {
 	}
 	
 	private void initEntities() {
+		ParamLoader paramLoader = new ParamLoader();
+		DataInjector dataInjector = new DataInjector();
+
+		entityFactory = new DomainEntityFactory();
 		mediator = new ScenarioMediator();
+		
+		mediator.setParamLoader(paramLoader);
+		mediator.setDataInjector(dataInjector);
 	}
 }
