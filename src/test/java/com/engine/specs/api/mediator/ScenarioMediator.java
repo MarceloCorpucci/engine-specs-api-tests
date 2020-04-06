@@ -2,8 +2,6 @@ package com.engine.specs.api.mediator;
 
 import java.util.Properties;
 
-import com.engine.specs.api.entity.builder.Engine;
-import com.engine.specs.api.entity.factory.EngineEntity;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
 import com.engine.specs.api.mediator.component.DataInjector;
@@ -42,13 +40,17 @@ public class ScenarioMediator {
 		return this.authenticator.authenticate();	
 	}
 	
-	public String inject(Engine engine, String resource) {
-		return this.dataInjector.inject(engine, resource);
+	public <T> String inject(T entity, String resource) {
+		return this.dataInjector.inject(entity, resource);
 	}
 	
-	public String inject(EngineEntity engine, String resource) {
-		return this.dataInjector.inject(engine, resource);
-	}
+//	public String inject(Engine engine, String resource) {
+//		return this.dataInjector.inject(engine, resource);
+//	}
+//	
+//	public String inject(EngineEntity engine, String resource) {
+//		return this.dataInjector.inject(engine, resource);
+//	}
 	
 	public int cleanUp(String id, String resource) {
 		return this.dataCleaner.cleanUp(id, resource);

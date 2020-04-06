@@ -7,6 +7,7 @@ import org.junit.Test;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.entity.factory.EngineEntity;
 import com.engine.specs.api.mediator.ScenarioMediator;
+import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataInjector;
 import com.engine.specs.api.mediator.component.ParamLoader;
 
@@ -40,12 +41,14 @@ public class TestPostInjectionMap {
 	
 	private void initEntities() {
 		ParamLoader paramLoader = new ParamLoader();
+		Authenticator authenticator = new Authenticator();
 		DataInjector dataInjector = new DataInjector();
 
 		entityFactory = new DomainEntityFactory();
 		mediator = new ScenarioMediator();
 		
 		mediator.setParamLoader(paramLoader);
+		mediator.setAuthenticator(authenticator);
 		mediator.setDataInjector(dataInjector);
 	}
 }
