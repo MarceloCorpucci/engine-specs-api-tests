@@ -14,6 +14,7 @@ public class TestPostInjectionMap {
 	private DomainEntityFactory entityFactory;
 	private EngineEntity engine;
 	private ScenarioMediator mediator;
+	private String engineId;
 	
 	@Before
 	public void setUp() {
@@ -23,7 +24,8 @@ public class TestPostInjectionMap {
 					.createEntity("engine_min_repr")
 					.getEngine();
 		
-		mediator.inject(engine, "engine");
+		engineId = mediator.inject(engine, "engine");
+		
 	}
 	
 	@Test

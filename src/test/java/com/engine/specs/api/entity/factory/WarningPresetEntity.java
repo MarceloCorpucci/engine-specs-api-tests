@@ -2,7 +2,7 @@ package com.engine.specs.api.entity.factory;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 
-public class WarningPreset {
+public class WarningPresetEntity {
 	private String name;
 	private int ect_warning;
 	private int oil_temp_warning;

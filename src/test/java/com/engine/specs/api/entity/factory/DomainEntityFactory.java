@@ -26,4 +26,17 @@ public class DomainEntityFactory {
 	public EcuEntity getEcu() {
 		return ecuLoader.get(type).fromJsonResource();
 	}
+	
+//	public <T> T createEntity(String type) {
+//		T entity;
+//		if (type.equals("engine_full_repr") || type.equals("engine_min_repr")) {
+//			entity =  new EngineLoader();
+//		}
+//		
+//		if(type.equals("ecu_default")) {
+//			ecuLoader = new EcuLoader();
+//		}
+//		
+//	    return list.get(0);
+//	}
 }

@@ -1,0 +1,7 @@
+{
+    "name": "AP-1800_normal",
+    "ect_warning": 100,
+    "oil_temp_warning": 110,
+    "rpm_warning": 7200,
+    "engine": { "model": "AP-1800"}
+}

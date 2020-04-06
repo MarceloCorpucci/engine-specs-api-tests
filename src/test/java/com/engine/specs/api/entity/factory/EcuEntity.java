@@ -7,7 +7,7 @@ public class EcuEntity {
 	private String firmware;
 	private String dateAdded;
 	private EngineEntity engine;
-	private WarningPreset warningPreset;
+	private WarningPresetEntity warningPreset;
 	private User user;
 	
 	@JsonGetter("model")
@@ -47,12 +47,12 @@ public class EcuEntity {
 	}
 	
 	@JsonGetter("warning_preset")
-	public WarningPreset getWarningPreset() {
+	public WarningPresetEntity getWarningPreset() {
 		return warningPreset;
 	}
 	
 	
-	public void setWarningPreset(WarningPreset warningPreset) {
+	public void setWarningPreset(WarningPresetEntity warningPreset) {
 		this.warningPreset = warningPreset;
 	}
 	
