@@ -17,7 +17,7 @@ public class DataInjector {
 		return with()
 				.header("Authorization", "Bearer " + token)
 				.contentType("application/json")
-				.body(entity)
+				.body(entity.getClass())
 				.post("/" + resource)
 				.getBody()
 				.jsonPath()

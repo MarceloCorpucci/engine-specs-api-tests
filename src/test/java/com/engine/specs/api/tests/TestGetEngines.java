@@ -33,8 +33,7 @@ public class TestGetEngines {
 								.build();
 		
 		engineId = mediator.inject(engine, "engine");
-				
-		}
+	}
 	
 	@Test
 	public void availableEnginesShouldHaveProperStatusCode() {
