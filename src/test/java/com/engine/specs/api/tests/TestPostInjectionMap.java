@@ -25,7 +25,7 @@ public class TestPostInjectionMap {
 					.createEntity("engine_min_repr")
 					.getEngine();
 		
-		engineId = mediator.inject(engine, "engine");
+		engineId = null;//mediator.inject(engine, "engine");
 		
 	}
 	

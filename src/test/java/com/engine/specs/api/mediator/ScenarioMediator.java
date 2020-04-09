@@ -46,7 +46,7 @@ public class ScenarioMediator {
 //	}
 	
 	public String inject(Engine engine, String resource) {
-		return this.dataInjector.inject(engine, resource);
+		return null; //this.dataInjector.inject(engine, resource);
 	}
 	
 //	public String inject(EngineEntity engine, String resource) {
