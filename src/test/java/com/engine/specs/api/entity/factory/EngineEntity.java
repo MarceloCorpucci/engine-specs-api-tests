@@ -114,4 +114,20 @@ public class EngineEntity {
 		this.fuelType = fuelType;
 	}
 
+	@Override
+	public String toString() {
+		return "Engine {" +
+				"'model': '" + model + "'" +
+				"'displacement': '" + displacement + "'" +
+				"'valve_amount': " + valveAmount + "'" +
+				"'injectors': '" + injectors + "'" +
+				"'piston_type': '" + pistonType + "'" +
+				"'camshaft': '" + camshaft + "'" +
+				"'power': '" + power + "'" +
+				"'forced_induction': '" + forcedInduction + "'" +
+				"'forced_inductionType': '" + forcedInductionType + "'" +
+				"'forced_inductionModel': '" + forcedInductionModel + "'" +
+				"'fuel_type': '" + fuelType + "'" +
+				"}";
+	}
 }

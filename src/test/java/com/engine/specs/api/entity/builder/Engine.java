@@ -104,14 +104,14 @@ public class Engine {
     
 	@Override
 	public String toString() {
-		return "Engine {" +
+		return "{" +
 				"'model': '" + model + "'" +
 				"'displacement': '" + displacement + "'" +
 				"'valve_amount': " + valveAmount + "'" +
 				"'injectors': '" + injectors + "'" +
-				"'piston_type': '" + pistonType + "'" +
+				"'piston_type': '" + pistonType + " " +
 				"'camshaft': '" + camshaft + "'" +
-				"'power': '" + power + "'" +
+				"'power': '" + power + "', " +
 				"'forced_induction': '" + forcedInduction + "'" +
 				"'forced_inductionType': '" + forcedInductionType + "'" +
 				"'forced_inductionModel': '" + forcedInductionModel + "'" +
