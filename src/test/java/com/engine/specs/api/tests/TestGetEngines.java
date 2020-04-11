@@ -16,7 +16,7 @@ import com.engine.specs.api.mediator.component.DataInjector;
 import com.engine.specs.api.mediator.component.ParamLoader;
 
 public class TestGetEngines {
-	private ScenarioMediator mediator;
+	private ScenarioMediator<Engine> mediator;
 	
 	private Engine engine;
 	private String engineId;
@@ -32,7 +32,7 @@ public class TestGetEngines {
 								.forcedInduction(false)
 								.build();
 		
-		engineId = mediator.inject(engine, "engine");
+		engineId = mediator.inject(engine, "/engines/engine");
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ public class TestGetEngines {
 	private void initEntities() {
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
-		DataInjector dataInjector = new DataInjector();
+		DataInjector<Engine> dataInjector = new DataInjector<Engine>();
 		DataCleaner dataCleaner = new DataCleaner();
 		
 		mediator = new ScenarioMediator();

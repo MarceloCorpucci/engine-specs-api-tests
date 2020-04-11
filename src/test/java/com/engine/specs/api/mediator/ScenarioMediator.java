@@ -11,7 +11,7 @@ import com.engine.specs.api.mediator.component.ParamLoader;
 public class ScenarioMediator {
 	private ParamLoader paramLoader;
 	private Authenticator authenticator;
-	private DataInjector dataInjector;
+	private DataInjector<Engine> dataInjector;
 	private DataCleaner dataCleaner;
 	
 	public void setParamLoader(ParamLoader paramLoader) {
@@ -23,7 +23,7 @@ public class ScenarioMediator {
 		this.authenticator.setMediator(this);
 	}
 
-	public void setDataInjector(DataInjector dataInjector) {
+	public void setDataInjector(DataInjector<Engine> dataInjector) {
 		this.dataInjector = dataInjector;
 		this.dataInjector.setMediator(this);
 	}
@@ -41,12 +41,8 @@ public class ScenarioMediator {
 		return this.authenticator.authenticate();	
 	}
 	
-//	public <T> String inject(T entity, String resource) {
-//		return this.dataInjector.inject(entity, resource);
-//	}
-	
-	public String inject(Engine engine, String resource) {
-		return null; //this.dataInjector.inject(engine, resource);
+	public String inject(Engine entity, String resource) {
+		return this.dataInjector.inject(entity).in(resource);
 	}
 	
 //	public String inject(EngineEntity engine, String resource) {

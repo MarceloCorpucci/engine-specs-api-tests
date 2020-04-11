@@ -1,6 +1,5 @@
 package com.engine.specs.api.mediator.component;
 
-import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.mediator.ScenarioMediator;
 
 import io.restassured.RestAssured;
