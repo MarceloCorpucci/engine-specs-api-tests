@@ -16,7 +16,7 @@ import com.engine.specs.api.mediator.component.DataInjector;
 import com.engine.specs.api.mediator.component.ParamLoader;
 
 public class TestGetEngines {
-	private ScenarioMediator<Engine> mediator;
+	private ScenarioMediator mediator;
 	
 	private Engine engine;
 	private String engineId;
@@ -26,7 +26,7 @@ public class TestGetEngines {
 		this.initEntities();
 		
 		engine = new Engine.Builder()
-								.model("L61-1")
+								.model("L61")
 								.displacement(2200)
 								.power(147)
 								.forcedInduction(false)
@@ -40,7 +40,7 @@ public class TestGetEngines {
 		given()
 			.contentType("application/json")
 		.when()
-			.get(mediator.testParams().getProperty("endPoint") + "/engine/" + engineId)
+			.get(mediator.testParams().getProperty("endPoint") + "/engines/engine/" + engineId)
 		.then()
 			.assertThat()
 			.statusCode(200)
@@ -50,7 +50,7 @@ public class TestGetEngines {
 	
 	@After
 	public void tearDown() {
-		mediator.cleanUp(engineId, "engine");
+		mediator.cleanUp(engineId, "/engines/engine");
 	}
 	
 	private void initEntities() {

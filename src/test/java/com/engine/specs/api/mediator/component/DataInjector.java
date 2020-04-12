@@ -1,10 +1,8 @@
 package com.engine.specs.api.mediator.component;
 
-import com.engine.specs.api.mediator.ScenarioMediator;
+import static io.restassured.RestAssured.with;
 
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
+import com.engine.specs.api.mediator.ScenarioMediator;
 
 public class DataInjector<T> {
 	private ScenarioMediator mediator;
@@ -22,19 +20,21 @@ public class DataInjector<T> {
 	public String in(String resource) {
 		String token = mediator.authenticate();
 		
-		RequestSpecification spec = new RequestSpecBuilder()
-											.addHeader("Authorization", "Bearer " + token)
-											.setContentType("application/json")
-											.setBaseUri("http://localhost:5000/api")
-											.setBody(entity)
-											.build();
-		
-		return RestAssured.given(spec)
-				.post("/engines/" + resource)
+		return with()
+				.contentType("application/json")
+				.header("Authorization", "Bearer " + token)
+				.body(entity)
+				.post(resource)
 				.getBody()
 				.jsonPath()
 				.getString(
-					String.format("%s", resource + "._id.$oid"));
+					String.format("%s", getEntityNameFrom(resource) + "._id.$oid"));
+	}
+	
+	private String getEntityNameFrom(String resourcePath) {
+		String[] name = resourcePath.split("/");
+		int i = name.length;
+		return name[i - 1];
 	}
 
 }

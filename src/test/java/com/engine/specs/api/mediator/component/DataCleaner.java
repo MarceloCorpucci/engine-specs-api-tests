@@ -36,7 +36,7 @@ public class DataCleaner {
 		return with()
 				.header("Authorization", "Bearer " + token)
 				.contentType("application/json")
-				.delete("/" + resource + "/" + id)
+				.delete(resource + "/" + id)
 				.getStatusCode();
 	}
 }
