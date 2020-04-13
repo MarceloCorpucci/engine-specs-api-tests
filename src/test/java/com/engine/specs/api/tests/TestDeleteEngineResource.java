@@ -17,10 +17,13 @@ public class TestDeleteEngineResource {
 	
 	private Engine engine;
 	private String engineId;
+	private String resource;
 	
 	@Before
 	public void setUp() {
 		this.initEntities();
+		
+		resource = "/engines/engine";
 		
 		engine = new Engine.Builder()
 								.model("L61")
@@ -29,7 +32,7 @@ public class TestDeleteEngineResource {
 								.forcedInduction(false)
 								.build();
 		
-		engineId = mediator.inject(engine, "engine");
+		engineId = mediator.inject(engine, resource);
 	}
 	
 	@Test
@@ -38,7 +41,7 @@ public class TestDeleteEngineResource {
 			.contentType("application/json")
 			.header("Authorization", "Bearer " + mediator.authenticate())
 		.when()
-			.delete(mediator.testParams().getProperty("endPoint") + "/engine/" + engineId)
+			.delete(mediator.testParams().getProperty("endPoint") + resource + '/' + engineId)
 		.then()
 			.assertThat()
 			.statusCode(204);
@@ -47,7 +50,7 @@ public class TestDeleteEngineResource {
 	private void initEntities() {
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
-		DataInjector dataInjector = new DataInjector();
+		DataInjector<Engine> dataInjector = new DataInjector<Engine>();
 		DataCleaner dataCleaner = new DataCleaner();
 		
 		mediator = new ScenarioMediator();
