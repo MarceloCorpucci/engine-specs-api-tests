@@ -14,19 +14,18 @@ public class DataCleaner {
 	}
 	
 	public int cleanUp(String property, String value, String resource) {
-		
 		String id = with()
 						.contentType("application/json")
-						.get("/" + resource + "/" + property + "/" + value)
+						.get("/" + getResourceSegment(resource) + "/" + property + "/" + value)
 						.getBody()
 						.jsonPath()
 						.getString(
-							String.format("%s", resource + "._id.$oid"));
+							String.format("%s", getEntityNameFrom(resource) + "._id.$oid"));
 				
 		return with()
 				.header("Authorization", "Bearer " + token)
 				.contentType("application/json")
-				.delete("/" + resource + "/" + id)
+				.delete(resource + "/" + id)
 				.getStatusCode();
 	}
 	
@@ -38,5 +37,16 @@ public class DataCleaner {
 				.contentType("application/json")
 				.delete(resource + "/" + id)
 				.getStatusCode();
+	}
+	
+	private String getResourceSegment(String uri) {
+		String[] segment = uri.split("/");
+		return segment[1];
+	}
+	
+	private String getEntityNameFrom(String resourcePath) {
+		String[] name = resourcePath.split("/");
+		int i = name.length;
+		return name[i - 1];
 	}
 }

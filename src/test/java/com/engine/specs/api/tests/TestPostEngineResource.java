@@ -18,11 +18,13 @@ import io.restassured.specification.RequestSpecification;
 public class TestPostEngineResource {
 	private ScenarioMediator mediator;
 	private RequestSpecification request;
+	private String resource;
 	private Engine engine;
 	
 	@Before
 	public void setUp() {
 		this.initEntities();
+		this.resource = "/engines/engine";
 		
 		engine = new Engine.Builder()
 								.model("L61")
@@ -43,7 +45,7 @@ public class TestPostEngineResource {
 	public void engineCreatedShouldHaveProperStatusCode() {
 		request
 			.when()
-				.post(mediator.testParams().getProperty("endPoint") + "/engine")
+				.post(mediator.testParams().getProperty("endPoint") + resource)
 			.then()
 				.assertThat()
 				.statusCode(201)
@@ -55,7 +57,7 @@ public class TestPostEngineResource {
 	public void engineCreatedShouldShowItsContent() {
 		request
 			.when()
-				.post(mediator.testParams().getProperty("endPoint") + "/engine")
+				.post(mediator.testParams().getProperty("endPoint") + resource)
 			.then()
 				.assertThat()
 				.body("engine.displacement", equalTo(engine.getDisplacement()))
@@ -71,7 +73,7 @@ public class TestPostEngineResource {
 	
 	@After
 	public void tearDown() {
-		mediator.cleanUp("model", engine.getModel(), "engine");
+		mediator.cleanUp("model", engine.getModel(), resource);
 	}
 	
 	private void initEntities() {

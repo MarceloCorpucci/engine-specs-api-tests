@@ -2,6 +2,7 @@ package com.engine.specs.api.mediator.component;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,18 +16,21 @@ public class TestDataInjector {
 	private Authenticator authenticator;
 	private ParamLoader paramLoader;
 	private Engine engine;
+	private DataCleaner dataCleaner;
 //	private EngineEntity engine;
 	
 	@Before
 	public void setUp() {
 		dataInjector = new DataInjector<Engine>();
 		mediator = new ScenarioMediator();
+		dataCleaner = new DataCleaner();
 		
 		paramLoader = new ParamLoader();
 		authenticator = new Authenticator();
 		mediator.setAuthenticator(authenticator);
 		System.setProperty("envProperties", "/Users/marcelocorpucci/Repositories/engine-specs-api-tests/src/test/resources/env/config/test.properties");
 		mediator.setParamLoader(paramLoader);
+		mediator.setDataCleaner(dataCleaner);
 		
 		dataInjector.setMediator(mediator);
 	}
@@ -46,8 +50,13 @@ public class TestDataInjector {
 //		engine.setPower(147);
 //		engine.setForcedInduction(false);
 		
-		String engineId = dataInjector.inject(engine).in("engine");
+		String engineId = dataInjector.inject(engine).in("/engines/engine");
 		
 		assertTrue(engineId != null);
+	}
+	
+	@After
+	public void tearDown() {
+		mediator.cleanUp("model", engine.getModel(), "/engines/engine");	
 	}
 }
