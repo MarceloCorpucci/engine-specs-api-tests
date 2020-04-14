@@ -25,7 +25,7 @@ public class TestPostInjectionMap {
 					.createEntity("engine_min_repr")
 					.getEngine();
 		
-		engineId = null;//mediator.inject(engine, "engine");
+		engineId = mediator.inject(engine, "/engines/engine");
 		
 	}
 	
@@ -42,13 +42,13 @@ public class TestPostInjectionMap {
 	private void initEntities() {
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
-		DataInjector dataInjector = new DataInjector();
+		DataInjector<EngineEntity> dataInjector = new DataInjector<EngineEntity>();
 
 		entityFactory = new DomainEntityFactory();
 		mediator = new ScenarioMediator();
 		
 		mediator.setParamLoader(paramLoader);
 		mediator.setAuthenticator(authenticator);
-		mediator.setDataInjector(dataInjector);
+		mediator.setEngineInjector(dataInjector);
 	}
 }
