@@ -3,6 +3,7 @@ package com.engine.specs.api.entity.factory;
 public class DomainEntityFactory {
 	private String type;
 	private EngineLoader engineLoader;
+	private WarningPresetLoader warningPresetLoader;
 	private EcuLoader ecuLoader;
 	
 	public DomainEntityFactory createEntity(String type) {
@@ -23,8 +24,11 @@ public class DomainEntityFactory {
 		return engineLoader.get(type).fromJsonResource();
 	}
 	
+	public WarningPresetEntity getWarningPreset() {
+		return warningPresetLoader.get(type).fromJsonResource();
+	}
+	
 	public EcuEntity getEcu() {
 		return ecuLoader.get(type).fromJsonResource();
 	}
-
 }

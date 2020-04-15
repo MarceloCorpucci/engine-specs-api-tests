@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.entity.factory.EngineEntity;
+import com.engine.specs.api.entity.factory.WarningPresetEntity;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
 import com.engine.specs.api.mediator.component.DataInjector;
@@ -14,6 +15,7 @@ public class ScenarioMediator {
 	private Authenticator authenticator;
 	private DataInjector<Engine> dataInjector;
 	private DataInjector<EngineEntity> engineInjector;
+	private DataInjector<WarningPresetEntity> warnPresetInjector;
 	private DataCleaner dataCleaner;
 	
 	public void setParamLoader(ParamLoader paramLoader) {
@@ -35,6 +37,11 @@ public class ScenarioMediator {
 		this.engineInjector.setMediator(this);
 	}
 
+	public void setWarnPresetInjector(DataInjector<WarningPresetEntity> warnPresetInjector) {
+		this.warnPresetInjector = warnPresetInjector;
+		this.warnPresetInjector.setMediator(this);
+	}
+	
 	public void setDataCleaner(DataCleaner dataCleaner) {
 		this.dataCleaner = dataCleaner;
 		this.dataCleaner.setMediator(this);
@@ -54,6 +61,10 @@ public class ScenarioMediator {
 	
 	public String inject(EngineEntity entity, String resource) {
 		return this.engineInjector.inject(entity).in(resource);
+	}
+	
+	public String inject(WarningPresetEntity entity, String resource) {
+		return this.warnPresetInjector.inject(entity).in(resource);
 	}
 	
 	public int cleanUp(String id, String resource) {

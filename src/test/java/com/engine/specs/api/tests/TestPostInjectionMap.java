@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.entity.factory.EngineEntity;
+import com.engine.specs.api.entity.factory.WarningPresetEntity;
 import com.engine.specs.api.mediator.ScenarioMediator;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataInjector;
@@ -14,8 +15,10 @@ import com.engine.specs.api.mediator.component.ParamLoader;
 public class TestPostInjectionMap {
 	private DomainEntityFactory entityFactory;
 	private EngineEntity engine;
+	private WarningPresetEntity warningPreset;
 	private ScenarioMediator mediator;
 	private String engineId;
+	private String warningPresetId;
 	
 	@Before
 	public void setUp() {
@@ -27,6 +30,11 @@ public class TestPostInjectionMap {
 		
 		engineId = mediator.inject(engine, "/engines/engine");
 		
+		warningPreset = entityFactory
+							.createEntity("warning_preset_default")
+							.getWarningPreset();
+				
+		warningPresetId = mediator.inject(warningPreset, "/warning_presets/warning_preset");
 	}
 	
 	@Test
@@ -42,13 +50,15 @@ public class TestPostInjectionMap {
 	private void initEntities() {
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
-		DataInjector<EngineEntity> dataInjector = new DataInjector<EngineEntity>();
+		DataInjector<EngineEntity> engineInjector = new DataInjector<EngineEntity>();
+		DataInjector<WarningPresetEntity> warnPresetInjector = new DataInjector<WarningPresetEntity>();
 
 		entityFactory = new DomainEntityFactory();
 		mediator = new ScenarioMediator();
 		
 		mediator.setParamLoader(paramLoader);
 		mediator.setAuthenticator(authenticator);
-		mediator.setEngineInjector(dataInjector);
+		mediator.setEngineInjector(engineInjector);
+		mediator.setWarnPresetInjector(warnPresetInjector);
 	}
 }
