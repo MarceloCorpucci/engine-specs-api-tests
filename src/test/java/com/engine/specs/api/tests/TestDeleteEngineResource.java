@@ -23,7 +23,7 @@ public class TestDeleteEngineResource {
 	public void setUp() {
 		this.initEntities();
 		
-		resource = "/engines/engine";
+		resource = mediator.commonParams().getProperty("engineResource");
 		
 		engine = new Engine.Builder()
 								.model("L61")
