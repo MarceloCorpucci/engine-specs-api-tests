@@ -27,7 +27,7 @@ public class Authenticator {
 		return with()
 				.contentType("application/json")
 				.body(user)
-				.post("/users/login")
+				.post(mediator.commonParams().getProperty("loginResource"))
 				.getBody()
 				.jsonPath()
 				.getString(
