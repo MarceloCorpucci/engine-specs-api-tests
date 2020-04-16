@@ -19,6 +19,7 @@ public class TestGetEngines {
 	private ScenarioMediator mediator;
 	
 	private Engine engine;
+	private String resource;
 	private String engineId;
 	
 	@Before
@@ -32,7 +33,8 @@ public class TestGetEngines {
 								.forcedInduction(false)
 								.build();
 		
-		engineId = mediator.inject(engine, "/engines/engine");
+		resource = mediator.commonParams().getProperty("engineResource");
+		engineId = mediator.inject(engine, resource);
 	}
 	
 	@Test
@@ -40,7 +42,7 @@ public class TestGetEngines {
 		given()
 			.contentType("application/json")
 		.when()
-			.get(mediator.testParams().getProperty("endPoint") + "/engines/engine/" + engineId)
+			.get(mediator.testParams().getProperty("endPoint") + resource + "/" + engineId)
 		.then()
 			.assertThat()
 			.statusCode(200)
@@ -50,7 +52,7 @@ public class TestGetEngines {
 	
 	@After
 	public void tearDown() {
-		mediator.cleanUp(engineId, "/engines/engine");
+		mediator.cleanUp(engineId, resource);
 	}
 	
 	private void initEntities() {

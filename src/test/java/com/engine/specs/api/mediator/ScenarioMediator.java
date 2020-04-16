@@ -51,6 +51,10 @@ public class ScenarioMediator {
 		return paramLoader.properties();
 	}
 	
+	public Properties commonParams() {
+		return paramLoader.commons();
+	}
+	
 	public String authenticate() {
 		return this.authenticator.authenticate();	
 	}
