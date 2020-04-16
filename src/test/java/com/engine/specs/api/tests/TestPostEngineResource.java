@@ -24,7 +24,7 @@ public class TestPostEngineResource {
 	@Before
 	public void setUp() {
 		this.initEntities();
-		this.resource = "/engines/engine";
+		this.resource = mediator.commonParams().getProperty("engineResource");
 		
 		engine = new Engine.Builder()
 								.model("L61")
