@@ -13,6 +13,10 @@ public class DomainEntityFactory {
 			engineLoader =  new EngineLoader();
 		}
 		
+		if(type.equals("warning_preset_default")) {
+			warningPresetLoader = new WarningPresetLoader();
+		}
+		
 		if(type.equals("ecu_default")) {
 			ecuLoader = new EcuLoader();
 		}
