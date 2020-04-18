@@ -3,6 +3,7 @@ package com.engine.specs.api.mediator;
 import java.util.Properties;
 
 import com.engine.specs.api.entity.builder.Engine;
+import com.engine.specs.api.entity.factory.EcuEntity;
 import com.engine.specs.api.entity.factory.EngineEntity;
 import com.engine.specs.api.entity.factory.WarningPresetEntity;
 import com.engine.specs.api.mediator.component.Authenticator;
@@ -16,6 +17,7 @@ public class ScenarioMediator {
 	private DataInjector<Engine> dataInjector;
 	private DataInjector<EngineEntity> engineInjector;
 	private DataInjector<WarningPresetEntity> warnPresetInjector;
+	private DataInjector<EcuEntity> ecuInjector;
 	private DataCleaner dataCleaner;
 	
 	public void setParamLoader(ParamLoader paramLoader) {
@@ -40,6 +42,11 @@ public class ScenarioMediator {
 	public void setWarnPresetInjector(DataInjector<WarningPresetEntity> warnPresetInjector) {
 		this.warnPresetInjector = warnPresetInjector;
 		this.warnPresetInjector.setMediator(this);
+	}
+	
+	public void setEcuInjector(DataInjector<EcuEntity> ecuInjector) {
+		this.ecuInjector = ecuInjector;
+		this.ecuInjector.setMediator(this);
 	}
 	
 	public void setDataCleaner(DataCleaner dataCleaner) {
@@ -70,6 +77,10 @@ public class ScenarioMediator {
 	public String inject(WarningPresetEntity entity, String resource) {
 		return this.warnPresetInjector.inject(entity).in(resource);
 	}
+
+	public String inject(EcuEntity entity, String resource) {
+		return this.ecuInjector.inject(entity).in(resource);
+	}	
 	
 	public int cleanUp(String id, String resource) {
 		return this.dataCleaner.cleanUp(id, resource);
