@@ -10,6 +10,7 @@ import com.engine.specs.api.entity.factory.EngineEntity;
 import com.engine.specs.api.entity.factory.WarningPresetEntity;
 import com.engine.specs.api.mediator.ScenarioMediator;
 import com.engine.specs.api.mediator.component.Authenticator;
+import com.engine.specs.api.mediator.component.DataExplorer;
 import com.engine.specs.api.mediator.component.DataInjector;
 import com.engine.specs.api.mediator.component.ParamLoader;
 
@@ -73,11 +74,14 @@ public class TestPostInjectionMap {
 	}
 	
 	private void initEntities() {
+		System.setProperty("envProperties", "/Users/marcelocorpucci/Repositories/engine-specs-api-tests/src/test/resources/env/config/test.properties");
+		System.setProperty("commonProperties", "/Users/marcelocorpucci/Repositories/engine-specs-api-tests/src/test/resources/env/config/common.properties");
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
 		DataInjector<EngineEntity> engineInjector = new DataInjector<EngineEntity>();
 		DataInjector<WarningPresetEntity> warnPresetInjector = new DataInjector<WarningPresetEntity>();
 		DataInjector<EcuEntity> ecuInjector = new DataInjector<EcuEntity>();
+		DataExplorer dataExplorer = new DataExplorer();
 		
 		entityFactory = new DomainEntityFactory();
 		mediator = new ScenarioMediator();
@@ -87,5 +91,6 @@ public class TestPostInjectionMap {
 		mediator.setEngineInjector(engineInjector);
 		mediator.setWarnPresetInjector(warnPresetInjector);
 		mediator.setEcuInjector(ecuInjector);
+		mediator.setDataExplorer(dataExplorer);
 	}
 }
