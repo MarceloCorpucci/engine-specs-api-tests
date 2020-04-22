@@ -1,7 +1,9 @@
 package com.engine.specs.api.entity.factory;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
+@JsonRootName(value = "engine")
 public class EngineEntity {
 	private String model;
 	private int displacement;
@@ -116,7 +118,7 @@ public class EngineEntity {
 
 	@Override
 	public String toString() {
-		return "Engine {" +
+		return "'engine': {" +
 				"'model': '" + model + "'" +
 				"'displacement': '" + displacement + "'" +
 				"'valve_amount': " + valveAmount + "'" +

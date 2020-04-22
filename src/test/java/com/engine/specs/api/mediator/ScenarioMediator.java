@@ -92,9 +92,9 @@ public class ScenarioMediator {
 		return this.dataCleaner.cleanUp(id, resource);
 	}
 	
-	public Object basedOnEntityRetrieveResource(EngineEntity entity, String resource) {
+	public EngineEntity basedOnEntityRetrieveResource(EngineEntity entity, String resource) {
 //		return this.dataExplorer.basedOn(entity).retrieve(resource);
-		return this.dataExplorer.retrieve(entity, resource);
+		return (EngineEntity) this.dataExplorer.retrieve(entity, resource);
 	}
 	
 	public int cleanUp(String property, String value, String resource) {
