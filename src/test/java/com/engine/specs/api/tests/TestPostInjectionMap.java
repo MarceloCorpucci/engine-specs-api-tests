@@ -43,7 +43,7 @@ public class TestPostInjectionMap {
 		
 		//here DataExplorer is required to get the engine model which will be added 
 		//to the warning preset below.
-		EngineEntity a = mediator.basedOnEntityRetrieveResource(engine, engineResource + "/" + engineId);
+		EngineEntity a = mediator.basedOnEntityRetrieveResource(new EngineEntity(), engineResource + "/" + engineId);
 		
 		warningPreset = entityFactory
 							.createEntity("warning_preset_default")
