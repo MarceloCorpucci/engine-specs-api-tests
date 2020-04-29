@@ -53,6 +53,7 @@ public class ScenarioMediator {
 	
 	public void setDataExplorer(DataExplorer dataExplorer) {
 		this.dataExplorer = dataExplorer;
+		this.dataExplorer.setMediator(this);
 	}
 	
 	public void setDataCleaner(DataCleaner dataCleaner) {
