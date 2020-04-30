@@ -1,9 +1,11 @@
 package com.engine.specs.api.entity.factory;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName(value = "engine")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EngineEntity {
 	private String model;
 	private int displacement;
