@@ -41,16 +41,13 @@ public class TestPostInjectionMap {
 		engineResource = mediator.commonParams().getProperty("engineResource");
 		engineId = mediator.inject(engine, engineResource);
 		
-		//here DataExplorer is required to get the engine model which will be added 
-		//to the warning preset below.
-		EngineEntity a = mediator.basedOnEntityRetrieveResource(new EngineEntity(), engineResource + "/" + engineId);
+		EngineEntity savedEngine = mediator.basedOnEntityRetrieveResource(new EngineEntity(), engineResource + "/" + engineId);
 		
 		warningPreset = entityFactory
 							.createEntity("warning_preset_default")
 							.getWarningPreset();
 		
-		//once we get the warning preset, we fill the reference to the engine with
-		//the one retrieved by DataExplorer.
+		warningPreset.setEngine(savedEngine);
 		
 		warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
 		warningPresetId = mediator.inject(warningPreset, warnPresetResource);
@@ -70,7 +67,7 @@ public class TestPostInjectionMap {
 	
 	@After
 	public void tearDown() {
-		
+		mediator.cleanUp("model", engine.getModel(), engineResource);
 	}
 	
 	private void initEntities() {
