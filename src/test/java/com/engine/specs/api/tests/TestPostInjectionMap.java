@@ -26,7 +26,7 @@ public class TestPostInjectionMap {
 	private String engineResource;
 	private String engineId;
 	private String warnPresetResource;
-	private String warningPresetId;
+	private String warnPresetId;
 	private String ecuResource;
 	private String ecuId;
 	
@@ -41,7 +41,7 @@ public class TestPostInjectionMap {
 		engineResource = mediator.commonParams().getProperty("engineResource");
 		engineId = mediator.inject(engine, engineResource);
 		
-		EngineEntity savedEngine = mediator.basedOnEntityRetrieveResource(new EngineEntity(), engineResource + "/" + engineId);
+		EngineEntity savedEngine = mediator.retrieveResource(new EngineEntity(), engineResource + "/" + engineId);
 		
 		warningPreset = entityFactory
 							.createEntity("warning_preset_default")
@@ -50,7 +50,9 @@ public class TestPostInjectionMap {
 		warningPreset.setEngine(savedEngine);
 		
 		warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
-		warningPresetId = mediator.inject(warningPreset, warnPresetResource);
+		warnPresetId = mediator.inject(warningPreset, warnPresetResource);
+		
+		WarningPresetEntity savedWarnPreset = mediator.retrieveResource(new WarningPresetEntity(), warnPresetResource + "/" + warnPresetId);
 		
 		ecu = entityFactory
 				.createEntity("ecu_default")
@@ -67,7 +69,7 @@ public class TestPostInjectionMap {
 	
 	@After
 	public void tearDown() {
-		mediator.cleanUp("model", engine.getModel(), engineResource);
+//		mediator.cleanUp("model", engine.getModel(), engineResource);
 	}
 	
 	private void initEntities() {
@@ -78,7 +80,8 @@ public class TestPostInjectionMap {
 		DataInjector<EngineEntity> engineInjector = new DataInjector<EngineEntity>();
 		DataInjector<WarningPresetEntity> warnPresetInjector = new DataInjector<WarningPresetEntity>();
 		DataInjector<EcuEntity> ecuInjector = new DataInjector<EcuEntity>();
-		DataExplorer dataExplorer = new DataExplorer();
+		DataExplorer<EngineEntity> engineExplorer = new DataExplorer<EngineEntity>();
+		DataExplorer<WarningPresetEntity> warnPresetExplorer = new DataExplorer<WarningPresetEntity>();
 		
 		entityFactory = new DomainEntityFactory();
 		mediator = new ScenarioMediator();
@@ -88,6 +91,7 @@ public class TestPostInjectionMap {
 		mediator.setEngineInjector(engineInjector);
 		mediator.setWarnPresetInjector(warnPresetInjector);
 		mediator.setEcuInjector(ecuInjector);
-		mediator.setDataExplorer(dataExplorer);
+		mediator.setEngineExplorer(engineExplorer);
+		mediator.setWarnPresetExplorer(warnPresetExplorer);
 	}
 }

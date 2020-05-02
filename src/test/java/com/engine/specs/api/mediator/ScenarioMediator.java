@@ -19,7 +19,8 @@ public class ScenarioMediator {
 	private DataInjector<EngineEntity> engineInjector;
 	private DataInjector<WarningPresetEntity> warnPresetInjector;
 	private DataInjector<EcuEntity> ecuInjector;
-	private DataExplorer<EngineEntity> dataExplorer;
+	private DataExplorer<EngineEntity> engineExplorer;
+	private DataExplorer<WarningPresetEntity> warnPresetExplorer;
 	private DataCleaner dataCleaner;
 	
 	public void setParamLoader(ParamLoader paramLoader) {
@@ -51,9 +52,14 @@ public class ScenarioMediator {
 		this.ecuInjector.setMediator(this);
 	}
 	
-	public void setDataExplorer(DataExplorer<EngineEntity> dataExplorer) {
-		this.dataExplorer = dataExplorer;
-		this.dataExplorer.setMediator(this);
+	public void setEngineExplorer(DataExplorer<EngineEntity> engineExplorer) {
+		this.engineExplorer = engineExplorer;
+		this.engineExplorer.setMediator(this);
+	}
+	
+	public void setWarnPresetExplorer(DataExplorer<WarningPresetEntity> warnPresetExplorer) {
+		this.warnPresetExplorer = warnPresetExplorer;
+		this.warnPresetExplorer.setMediator(this);
 	}
 	
 	public void setDataCleaner(DataCleaner dataCleaner) {
@@ -93,8 +99,12 @@ public class ScenarioMediator {
 		return this.dataCleaner.cleanUp(id, resource);
 	}
 	
-	public EngineEntity basedOnEntityRetrieveResource(EngineEntity entity, String resource) {
-		return (EngineEntity) this.dataExplorer.basedOn(entity).retrieve(resource);
+	public EngineEntity retrieveResource(EngineEntity entity, String resource) {
+		return (EngineEntity) this.engineExplorer.basedOn(entity).retrieve(resource);
+	}
+
+	public WarningPresetEntity retrieveResource(WarningPresetEntity entity, String resource) {
+		return (WarningPresetEntity) this.warnPresetExplorer.basedOn(entity).retrieve(resource);
 	}
 	
 	public int cleanUp(String property, String value, String resource) {

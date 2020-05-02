@@ -1,7 +1,11 @@
 package com.engine.specs.api.entity.factory;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
+@JsonRootName(value = "warning_preset")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WarningPresetEntity {
 	private String name;
 	private int ect_warning;
@@ -52,5 +56,16 @@ public class WarningPresetEntity {
 	
 	public void setEngine(EngineEntity engine) {
 		this.engine = engine;
+	}
+	
+	@Override
+	public String toString() {
+		return "'warning_preset': {" +
+				"'name': '" + name + "'" +
+				"'ect_warning': '" + ect_warning + "'" +
+				"'oil_temp_warning': " + oil_temp_warning + "'" +
+				"'rpm_warning': '" + rpm_warning + "'" +
+				"'engine': '" + engine + "'" +
+				"}";
 	}
 }
