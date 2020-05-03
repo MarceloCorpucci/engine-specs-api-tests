@@ -24,7 +24,7 @@ public class TestPostWarningPreset {
 	private RequestSpecification request;
 	private String engineResource;
 	private String engineId;
-	private String warnEntityResource;
+	private String warnPresetResource;
 	private EngineEntity engine;
 	private WarningPresetEntity warnPreset;
 	
@@ -32,7 +32,7 @@ public class TestPostWarningPreset {
 	public void setUp() {
 		this.initEntities();
 		this.engineResource = mediator.commonParams().getProperty("engineResource");
-		this.warnEntityResource = mediator.commonParams().getProperty("warnPresetResource");
+		this.warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
 		
 		engine = entityFactory
 					.createEntity("engine_min_repr")
@@ -57,7 +57,7 @@ public class TestPostWarningPreset {
 	public void warnPresetCreatedShouldHaveProperStatusCode() {
 		request
 			.when()
-				.post(mediator.testParams().getProperty("endPoint") + warnEntityResource)
+				.post(mediator.testParams().getProperty("endPoint") + warnPresetResource)
 			.then()
 				.assertThat()
 				.statusCode(201)
@@ -67,14 +67,11 @@ public class TestPostWarningPreset {
 	
 	@After
 	public void tearDown() {
+		mediator.cleanUp("name", warnPreset.getName(), warnPresetResource);
 		mediator.cleanUp("model", engine.getModel(), engineResource);
-//		mediator.cleanUp("model", engine.getModel(), engineResource);
 	}
 	
 	private void initEntities() {
-		System.setProperty("envProperties", "/Users/marcelocorpucci/Repositories/engine-specs-api-tests/src/test/resources/env/config/test.properties");
-		System.setProperty("commonProperties", "/Users/marcelocorpucci/Repositories/engine-specs-api-tests/src/test/resources/env/config/common.properties");
-		
 		entityFactory = new DomainEntityFactory();
 		
 		ParamLoader paramLoader = new ParamLoader();
