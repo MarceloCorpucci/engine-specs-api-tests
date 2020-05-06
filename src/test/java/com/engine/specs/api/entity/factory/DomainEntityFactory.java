@@ -5,6 +5,7 @@ public class DomainEntityFactory {
 	private EngineLoader engineLoader;
 	private WarningPresetLoader warningPresetLoader;
 	private EcuLoader ecuLoader;
+	private InjectionMapLoader injectionMapLoader;
 	
 	public DomainEntityFactory createEntity(String type) {
 		this.type = type;
@@ -21,6 +22,10 @@ public class DomainEntityFactory {
 			ecuLoader = new EcuLoader();
 		}
 		
+		if(type.equals("injection_map_default")) {
+			injectionMapLoader = new InjectionMapLoader();
+		}
+		
 		return this;
 	}
 	
@@ -34,5 +39,9 @@ public class DomainEntityFactory {
 	
 	public EcuEntity getEcu() {
 		return ecuLoader.get(type).fromJsonResource();
+	}
+
+	public InjectionMapEntity getInjectionMap() {
+		return injectionMapLoader.get(type).fromJsonResource();
 	}
 }

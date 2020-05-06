@@ -8,7 +8,7 @@ public class InjectionMapEntity {
 	private Map<String, Float> map;
 	private String date;
 	private EcuEntity ecu;
-	private String user;
+	private User user;
 	
 	@JsonGetter("map")
 	public Map<String, Float> getMap() {
@@ -38,11 +38,11 @@ public class InjectionMapEntity {
 	}
 	
 	@JsonGetter("email")
-	public String getUser() {
+	public User getUser() {
 		return user;
 	}
 	
-	public void setUser(String user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 }

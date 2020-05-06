@@ -1,11 +1,22 @@
 package com.engine.specs.api.entity.factory;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
+import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonRootName(value = "ecu")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EcuEntity {
 	private String model;
 	private String firmware;
-	private String dateAdded;
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
+	@JsonSerialize(using = DateSerializer.class)
+	@JsonDeserialize(using = DateDeserializer.class)
+	private Date dateAdded;
 	private EngineEntity engine;
 	private WarningPresetEntity warningPreset;
 	private User user;
@@ -29,11 +40,12 @@ public class EcuEntity {
 	}
 	
 	@JsonGetter("date_added")
-	public String getDateAdded() {
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
+	public Date getDateAdded() {
 		return dateAdded;
 	}
 	
-	public void setDateAdded(String dateAdded) {
+	public void setDateAdded(Date dateAdded) {
 		this.dateAdded = dateAdded;
 	}
 	
@@ -63,5 +75,17 @@ public class EcuEntity {
 	
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	@Override
+	public String toString() {
+		return "'ecu': {" +
+				"'model': '" + model + "'" +
+				"'firmware': '" + firmware + "'" +
+				"'date_added': '" + dateAdded + "'" +
+				"'engine': '" + engine + "'" +
+				"'warning_preset': '" + warningPreset + "'" +
+				"'user': '" + user + "'" +
+				"}";
 	}
 }

@@ -23,7 +23,7 @@ public class InjectionMapLoader implements DomainEntityLoader<InjectionMapEntity
        ObjectMapper objectMapper = new ObjectMapper();
        InjectionMapEntity injectionMap = new InjectionMapEntity();
        
-       URL resource = classLoader.getResource("data/ecu/" + type  + ".json");
+       URL resource = classLoader.getResource("data/injection_map/" + type  + ".json");
         
        try {
     	   injectionMap = objectMapper.readValue(new File(resource.getFile()), InjectionMapEntity.class);

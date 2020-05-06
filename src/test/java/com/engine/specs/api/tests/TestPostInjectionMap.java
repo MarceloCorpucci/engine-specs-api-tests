@@ -1,5 +1,7 @@
 package com.engine.specs.api.tests;
 
+import static io.restassured.RestAssured.given;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +9,7 @@ import org.junit.Test;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.entity.factory.EcuEntity;
 import com.engine.specs.api.entity.factory.EngineEntity;
+import com.engine.specs.api.entity.factory.InjectionMapEntity;
 import com.engine.specs.api.entity.factory.User;
 import com.engine.specs.api.entity.factory.WarningPresetEntity;
 import com.engine.specs.api.mediator.ScenarioMediator;
@@ -16,12 +19,15 @@ import com.engine.specs.api.mediator.component.DataExplorer;
 import com.engine.specs.api.mediator.component.DataInjector;
 import com.engine.specs.api.mediator.component.ParamLoader;
 
+import io.restassured.specification.RequestSpecification;
+
 public class TestPostInjectionMap {
 	private DomainEntityFactory entityFactory;
 	
 	private EngineEntity engine;
 	private WarningPresetEntity warningPreset;
 	private EcuEntity ecu;
+	private InjectionMapEntity injectionMap;
 	
 	private ScenarioMediator mediator;
 	
@@ -31,6 +37,9 @@ public class TestPostInjectionMap {
 	private String warnPresetId;
 	private String ecuResource;
 	private String ecuId;
+	private String injectionMapResource;
+	
+	private RequestSpecification request;
 	
 	@Before
 	public void setUp() {
@@ -69,18 +78,42 @@ public class TestPostInjectionMap {
 		ecuResource = mediator.commonParams().getProperty("ecuResource");
 		ecuId = mediator.inject(ecu, ecuResource);
 		
-		//EcuEntity savedEcu = mediator.retrieveResource(entity, resource);
+		EcuEntity savedEcu = mediator.retrieveResource(new EcuEntity(), ecuResource + "/" + ecuId);
+		
+		injectionMapResource = mediator.commonParams().getProperty("injectionMapResource");
+		injectionMap = entityFactory
+							.createEntity("injection_map_default")
+							.getInjectionMap();
+		
+		injectionMap.setEcu(savedEcu);
+		injectionMap.setUser(user);
+		
+		request = given()
+					.contentType("application/json")
+					.header("Authorization", "Bearer " + mediator.authenticate())
+					.body(injectionMap)
+					.log()
+					.all();
 	}
 	
 	@Test
 	public void injectionMapCreatedShouldHaveProperStatusCode() {
-
+		request
+			.when()
+				.post(mediator.testParams().getProperty("endPoint") + warnPresetResource)
+			.then()
+				.assertThat()
+				.statusCode(201)
+				.log()
+				.all();
 	}
 	
 	@After
 	public void tearDown() {
 		mediator.cleanUp("name", warningPreset.getName(), warnPresetResource);
 		mediator.cleanUp("model", engine.getModel(), engineResource);
+		mediator.cleanUp("model", ecu.getModel(), ecuResource);
+		mediator.cleanUp("ecu_model", injectionMap.getEcu().getModel(), injectionMapResource);
 	}
 	
 	private void initEntities() {
