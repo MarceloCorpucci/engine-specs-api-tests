@@ -2,6 +2,7 @@ package com.engine.specs.api.entity.factory;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
@@ -13,18 +14,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class EcuEntity {
 	private String model;
 	private String firmware;
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
-	@JsonSerialize(using = DateSerializer.class)
-	@JsonDeserialize(using = DateDeserializer.class)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
+//	@JsonSerialize(using = DateSerializer.class)
+//	@JsonDeserialize(using = DateDeserializer.class)
 	private Date dateAdded;
 	private EngineEntity engine;
 	private WarningPresetEntity warningPreset;
 	private User user;
-	
-	@JsonGetter("model")
-	public String getModel() {
-		return model;
-	}
 	
 	public void setModel(String model) {
 		this.model = model;
@@ -40,13 +36,18 @@ public class EcuEntity {
 	}
 	
 	@JsonGetter("date_added")
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
 	public Date getDateAdded() {
 		return dateAdded;
 	}
 	
 	public void setDateAdded(Date dateAdded) {
 		this.dateAdded = dateAdded;
+	}
+
+	@JsonGetter("model")
+	public String getModel() {
+		return model;
 	}
 	
 	@JsonGetter("engine")

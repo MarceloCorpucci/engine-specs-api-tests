@@ -27,14 +27,13 @@ public class DateDeserializer extends StdDeserializer<Date> {
     @Override
     public Date deserialize(final JsonParser jsonparser, final DeserializationContext context) throws IOException, 
     																							  	  JsonProcessingException {
-    	DeserializationContext cnt = context;
 
     	String date = "";
         
     	while(!jsonparser.isClosed()){
     	    JsonToken jsonToken = jsonparser.nextToken();
-
-    	    if(JsonToken.FIELD_NAME.equals(jsonToken)){
+    	    
+    	    if(JsonToken.START_OBJECT.equals(jsonToken)){
     	        String fieldName = jsonparser.getCurrentName();
 
     	        jsonToken = jsonparser.nextToken();
