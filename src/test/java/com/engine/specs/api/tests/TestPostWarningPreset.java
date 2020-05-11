@@ -23,7 +23,6 @@ public class TestPostWarningPreset {
 	private DomainEntityFactory entityFactory;
 	private RequestSpecification request;
 	private String engineResource;
-	private String engineId;
 	private String warnPresetResource;
 	private EngineEntity engine;
 	private WarningPresetEntity warnPreset;
@@ -37,13 +36,12 @@ public class TestPostWarningPreset {
 		engine = entityFactory
 					.createEntity("engine_min_repr")
 					.getEngine();	
-		engineId = mediator.inject(engine, engineResource);
-		EngineEntity savedEngine = mediator.retrieveResource(new EngineEntity(), engineResource + "/" + engineId);
+		mediator.inject(engine, engineResource);
 		
 		warnPreset = entityFactory
 						.createEntity("warning_preset_default")
 						.getWarningPreset();
-		warnPreset.setEngine(savedEngine);
+		warnPreset.setEngine(engine);
 		
 		request = given()
 					.contentType("application/json")
@@ -73,7 +71,6 @@ public class TestPostWarningPreset {
 	
 	private void initEntities() {
 		entityFactory = new DomainEntityFactory();
-		
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
 		DataInjector<EngineEntity> dataInjector = new DataInjector<EngineEntity>();
