@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.engine.specs.api.entity.EngineEntity;
 import com.engine.specs.api.entity.builder.Engine;
-import com.engine.specs.api.entity.factory.EngineEntity;
 import com.engine.specs.api.mediator.ScenarioMediator;
 
 public class TestDataInjector {

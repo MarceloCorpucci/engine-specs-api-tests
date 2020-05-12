@@ -1,5 +1,10 @@
 package com.engine.specs.api.entity.factory;
 
+import com.engine.specs.api.entity.EcuEntity;
+import com.engine.specs.api.entity.EngineEntity;
+import com.engine.specs.api.entity.InjectionMapEntity;
+import com.engine.specs.api.entity.WarningPresetEntity;
+
 public class DomainEntityFactory {
 	private String type;
 	private EngineLoader engineLoader;

@@ -1,4 +1,4 @@
-package com.engine.specs.api.entity.factory;
+package com.engine.specs.api.entity;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

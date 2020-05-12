@@ -2,10 +2,10 @@ package com.engine.specs.api.mediator;
 
 import java.util.Properties;
 
+import com.engine.specs.api.entity.EcuEntity;
+import com.engine.specs.api.entity.EngineEntity;
+import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.builder.Engine;
-import com.engine.specs.api.entity.factory.EcuEntity;
-import com.engine.specs.api.entity.factory.EngineEntity;
-import com.engine.specs.api.entity.factory.WarningPresetEntity;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
 import com.engine.specs.api.mediator.component.DataExplorer;

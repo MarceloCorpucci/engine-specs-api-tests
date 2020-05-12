@@ -6,9 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.engine.specs.api.entity.EngineEntity;
+import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
-import com.engine.specs.api.entity.factory.EngineEntity;
-import com.engine.specs.api.entity.factory.WarningPresetEntity;
 import com.engine.specs.api.mediator.ScenarioMediator;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;

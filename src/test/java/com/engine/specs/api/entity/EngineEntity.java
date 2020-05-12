@@ -1,4 +1,4 @@
-package com.engine.specs.api.entity.factory;
+package com.engine.specs.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
