@@ -101,10 +101,10 @@ public class TestPostInjectionMap {
 	
 	@After
 	public void tearDown() {
+		mediator.cleanUp("ecu", injectionMap.getEcu().getModel(), injectionMapResource);
+		mediator.cleanUp("model", ecu.getModel(), ecuResource);
 		mediator.cleanUp("name", warningPreset.getName(), warnPresetResource);
 		mediator.cleanUp("model", engine.getModel(), engineResource);
-		mediator.cleanUp("model", ecu.getModel(), ecuResource);
-		mediator.cleanUp("ecu_model", injectionMap.getEcu().getModel(), injectionMapResource);
 	}
 	
 	private void initEntities() {
