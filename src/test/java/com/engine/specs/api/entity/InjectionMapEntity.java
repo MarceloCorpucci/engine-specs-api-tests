@@ -1,54 +1,53 @@
 package com.engine.specs.api.entity;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class InjectionMapEntity {
-//	@JsonDeserialize(keyUsing = MyPairDeserializer.class)
-//	@JsonProperty("map")
-	private Map<String, Float> map;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
-	private String date;
+	private List<Map<String, List<Float>>> map;
+	private Date date;
 	private EcuEntity ecu;
 	private User user;
 	
-//	@JsonCreator(mode=Mode.DELEGATING)
-//	public InjectionMapEntity(@JsonProperty("map")Map<String,Float> map) {
-//	    this.map = map;
-//	}
-//
-//	@JsonValue
-	@JsonGetter("map")
-	public Map<String, Float> getMap() {
+	@JsonCreator
+	public InjectionMapEntity(@JsonProperty("map")
+							  List<Map<String,List<Float>>> map,
+							  @JsonProperty("date")
+							  @JsonFormat(shape = JsonFormat.Shape.STRING, 
+							  			  pattern = "yyyy-MM-dd HH:mm:ss", 
+							  			  timezone = "GMT")
+							  Date date,
+							  @JsonProperty("ecu")
+							  EcuEntity ecu,
+							  @JsonProperty("user")
+							  User user) {
+	    this.map = map;
+	    this.date = date;
+	    this.ecu = ecu;
+	    this.user = user;
+	}
+
+	public List<Map<String, List<Float>>> getMap() {
 	    return map;
 	}
-	  
-//	public Map<String, Float> getMap() {
-//		return map;
-//	}
 	
-	public void setMap(Map<String, Float> map) {
+	public void setMap(List<Map<String, List<Float>>> map) {
 		this.map = map;
 	}
 	
-	@JsonGetter("date")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 	
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	
-	@JsonGetter("ecu")
 	public EcuEntity getEcu() {
 		return ecu;
 	}
@@ -57,7 +56,6 @@ public class InjectionMapEntity {
 		this.ecu = ecu;
 	}
 	
-	@JsonGetter("email")
 	public User getUser() {
 		return user;
 	}
