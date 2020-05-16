@@ -15,19 +15,19 @@ public class DomainEntityFactory {
 	public DomainEntityFactory createEntity(String type) {
 		this.type = type;
 		
-		if (type.equals("engine_full_repr") || type.equals("engine_min_repr")) {
+		if (type.contains("engine")) {
 			engineLoader =  new EngineLoader();
 		}
 		
-		if(type.equals("warning_preset_default")) {
+		if(type.contains("warning")) {
 			warningPresetLoader = new WarningPresetLoader();
 		}
 		
-		if(type.equals("ecu_default")) {
+		if(type.contains("ecu")) {
 			ecuLoader = new EcuLoader();
 		}
 		
-		if(type.equals("injection_map_default")) {
+		if(type.contains("injection")) {
 			injectionMapLoader = new InjectionMapLoader();
 		}
 		

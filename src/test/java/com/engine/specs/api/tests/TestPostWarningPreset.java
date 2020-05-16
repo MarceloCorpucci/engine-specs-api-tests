@@ -9,6 +9,8 @@ import org.junit.Test;
 import com.engine.specs.api.entity.EngineEntity;
 import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
+import com.engine.specs.api.flow.composite.EngineLeafFlow;
+import com.engine.specs.api.flow.composite.WarningPresetCompositeFlow;
 import com.engine.specs.api.mediator.ScenarioMediator;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
@@ -21,6 +23,8 @@ import io.restassured.specification.RequestSpecification;
 public class TestPostWarningPreset {
 	private ScenarioMediator mediator;
 	private DomainEntityFactory entityFactory;
+	private EngineLeafFlow engineFlow;
+	private WarningPresetCompositeFlow warnPresetFlow;
 	private RequestSpecification request;
 	private String engineResource;
 	private String warnPresetResource;
@@ -33,15 +37,19 @@ public class TestPostWarningPreset {
 		this.engineResource = mediator.commonParams().getProperty("engineResource");
 		this.warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
 		
-		engine = entityFactory
-					.createEntity("engine_min_repr")
-					.getEngine();	
-		mediator.inject(engine, engineResource);
+//		engine = entityFactory
+//					.createEntity("engine_min_repr")
+//					.getEngine();	
+//		mediator.inject(engine, engineResource);
+//		
+//		warnPreset = entityFactory
+//						.createEntity("warning_preset_default")
+//						.getWarningPreset();
+//		warnPreset.setEngine(engine);
 		
-		warnPreset = entityFactory
-						.createEntity("warning_preset_default")
-						.getWarningPreset();
-		warnPreset.setEngine(engine);
+		engine = engineFlow
+					.create(entityType)
+					.in();
 		
 		request = given()
 					.contentType("application/json")
@@ -70,6 +78,9 @@ public class TestPostWarningPreset {
 	}
 	
 	private void initEntities() {
+		System.setProperty("envProperties", "/Users/marcelocorpucci/Repositories/engine-specs-api-tests/src/test/resources/env/config/test.properties");
+		System.setProperty("commonProperties", "/Users/marcelocorpucci/Repositories/engine-specs-api-tests/src/test/resources/env/config/common.properties");
+		
 		entityFactory = new DomainEntityFactory();
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
@@ -83,5 +94,8 @@ public class TestPostWarningPreset {
 		mediator.setEngineInjector(dataInjector);
 		mediator.setEngineExplorer(engineExplorer);
 		mediator.setDataCleaner(dataCleaner);
+		
+		engineFlow = new EngineLeafFlow();
+		warnPresetFlow = new WarningPresetCompositeFlow();
 	}
 }
