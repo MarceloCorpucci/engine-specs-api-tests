@@ -1,5 +1,7 @@
 package com.engine.specs.api.flow.composite;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,71 +10,74 @@ import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.mediator.ScenarioMediator;
 
-public class WarningPresetCompositeFlow implements FeatureFlow {
-	private List<FeatureFlow> childEntities;
+public class WarningPresetCompositeFlow implements FeatureFlow<WarningPresetEntity> {
+	private List<FeatureFlow<?>> childEntities = new ArrayList<FeatureFlow<?>>();
 	private DomainEntityFactory factory;
 	//TODO thrown an exception if mediator is passed without previos steps (auth, etc)
 	private ScenarioMediator mediator;
 	private String paramName;
-	private Map<String, String> param;
+	private Map<String, String> param = new HashMap<String, String>();;
 	private WarningPresetEntity entity;
 	
-    public void addChildEntity(FeatureFlow entity) {
+    public WarningPresetCompositeFlow addChildEntity(FeatureFlow<?> entity) {
     	childEntities.add(entity);
+    	return this;
     }
 
 	@Override
-	public FeatureFlow usingFactory(DomainEntityFactory factory) {
+	public WarningPresetCompositeFlow usingFactory(DomainEntityFactory factory) {
 		this.factory = factory;
 		return this;
 	}
 
 	@Override
-	public FeatureFlow injectingThrough(ScenarioMediator mediator) {
+	public WarningPresetCompositeFlow injectingThrough(ScenarioMediator mediator) {
 		this.mediator = mediator;
 		return this;
 	}
 	
 	@Override
-	public FeatureFlow defineParam(String paramName) {
+	public WarningPresetCompositeFlow defineParam(String paramName) {
 		this.paramName = paramName;
 		return this;
 	}
 	
 	@Override
-	public FeatureFlow as(String paramValue) {
+	public WarningPresetCompositeFlow as(String paramValue) {
 		//TODO thrown an exception if paramName is not defined.
 		this.param.put(paramName, paramValue);
 		return this;
 	}
 	
 	@Override
-	public FeatureFlow createInstance() {
+	public WarningPresetCompositeFlow createInstance() {
 		entity = factory
 					.createEntity(param.get("entityType"))
 					.getWarningPreset();
 		return this;
 	}
 	
-	@Override
-	public String inject() {	
-		//TODO thrown an exception if previous methods were not called.
-		//TODO: Thrown an exception if the resource is not "WarnPreset".
+	public WarningPresetCompositeFlow injectChildren() {
+		//TODO thrown an exception if createInstance was not called due entity object must be instanciated beforehand.
 		EngineEntity engine = null;
 		
-		for(FeatureFlow entity : childEntities) {
-			if(entity.getType().contains("engine")) {
-				engine = entity.createInstance().getEntity();
-				mediator.inject(engine, entity.getResource());
+		for(FeatureFlow<?> currentEntity : childEntities) {
+			if(currentEntity.getType().contains("engine")) {
+				engine = (EngineEntity) currentEntity.usingFactory(factory).createInstance().getEntity();
+				mediator.inject(engine, currentEntity.getResource());
 			}
 		}
 		
-		WarningPresetEntity warnPreset = factory
-											.createEntity(param.get("entityType"))
-											.getWarningPreset();
-		warnPreset.setEngine(engine);
+		entity.setEngine(engine);
 		
-		return mediator.inject(warnPreset, param.get("resource"));
+		return this;
+	}
+	
+	@Override
+	public String inject() {	
+		//TODO thrown an exception if previous methods were not called.
+		//TODO: Thrown an exception if the resource is not "WarnPreset".		
+		return mediator.inject(entity, param.get("resource"));
 	}
 
 	@Override
@@ -86,7 +91,7 @@ public class WarningPresetCompositeFlow implements FeatureFlow {
 	}
 	
 	public WarningPresetEntity getEntity() {
-		return factory.getWarningPreset();
+		return entity;
 	}
 
 }

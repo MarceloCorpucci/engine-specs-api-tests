@@ -28,7 +28,6 @@ public class TestPostWarningPreset {
 	private RequestSpecification request;
 	private String engineResource;
 	private String warnPresetResource;
-	private EngineEntity engine;
 	private WarningPresetEntity warnPreset;
 	
 	@Before
@@ -36,20 +35,21 @@ public class TestPostWarningPreset {
 		this.initEntities();
 		this.engineResource = mediator.commonParams().getProperty("engineResource");
 		this.warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
+
 		
-//		engine = entityFactory
-//					.createEntity("engine_min_repr")
-//					.getEngine();	
-//		mediator.inject(engine, engineResource);
-//		
-//		warnPreset = entityFactory
-//						.createEntity("warning_preset_default")
-//						.getWarningPreset();
-//		warnPreset.setEngine(engine);
+		engineFlow
+			.defineParam("entityType").as("engine_min_repr")
+			.defineParam("resource").as(engineResource);
 		
-		engine = engineFlow
-					.create(entityType)
-					.in();
+		warnPreset = warnPresetFlow
+						.defineParam("entityType").as("warning_preset_default")
+						.defineParam("resource").as(warnPresetResource)
+						.addChildEntity(engineFlow)
+						.usingFactory(entityFactory)
+						.injectingThrough(mediator)
+						.createInstance()
+						.injectChildren()
+						.getEntity();
 		
 		request = given()
 					.contentType("application/json")
@@ -74,7 +74,7 @@ public class TestPostWarningPreset {
 	@After
 	public void tearDown() {
 		mediator.cleanUp("name", warnPreset.getName(), warnPresetResource);
-		mediator.cleanUp("model", engine.getModel(), engineResource);
+		mediator.cleanUp("model", warnPreset.getEngine().getModel(), engineResource);
 	}
 	
 	private void initEntities() {
