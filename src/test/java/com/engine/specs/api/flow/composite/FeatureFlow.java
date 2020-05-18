@@ -5,9 +5,9 @@ import com.engine.specs.api.mediator.ScenarioMediator;
 
 public interface FeatureFlow<T> {
 	FeatureFlow<T> usingFactory(DomainEntityFactory factory);
-	FeatureFlow<T> injectingThrough(ScenarioMediator mediator);
-	FeatureFlow<T> defineParam(String paramName);
-	FeatureFlow<T> as(String paramValue);
+	FeatureFlow<T> coordinateWith(ScenarioMediator mediator);
+	FeatureFlow<T> getParameterizedResource(String name);
+	FeatureFlow<T> defineEntityRepr(String name);
 	FeatureFlow<T> createInstance();
 	String inject();
 	String getType();

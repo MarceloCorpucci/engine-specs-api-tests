@@ -1,8 +1,5 @@
 package com.engine.specs.api.flow.composite;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.engine.specs.api.entity.EngineEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.mediator.ScenarioMediator;
@@ -11,8 +8,8 @@ public class EngineLeafFlow implements FeatureFlow<EngineEntity> {
 	private DomainEntityFactory factory;
 	//TODO thrown an exception if mediator is passed without previos steps (auth, etc)
 	private ScenarioMediator mediator;
-	private String paramName;
-	private Map<String, String> param = new HashMap<String, String>();
+	private String entityRepr;
+	private String resource;
 	private EngineEntity entity;
 	
 	@Override
@@ -22,29 +19,27 @@ public class EngineLeafFlow implements FeatureFlow<EngineEntity> {
 	}
 
 	@Override
-	public EngineLeafFlow injectingThrough(ScenarioMediator mediator) {
+	public EngineLeafFlow coordinateWith(ScenarioMediator mediator) {
 		this.mediator = mediator;
 		return this;
 	}
-	
+
 	@Override
-	public EngineLeafFlow defineParam(String paramName) {
-		this.paramName = paramName;
+	public EngineLeafFlow getParameterizedResource(String name) {
+		//TODO thrown an exception if mediator is not set.
+		this.resource = mediator.commonParams().getProperty(name);
 		return this;
 	}
 	
 	@Override
-	public EngineLeafFlow as(String paramValue) {
-		//TODO thrown an exception if paramName is not defined.
-		this.param.put(paramName, paramValue);
+	public EngineLeafFlow defineEntityRepr(String name) {
+		this.entityRepr = name;
 		return this;
 	}
 	
 	@Override
 	public EngineLeafFlow createInstance() {
-		entity = factory
-					.createEntity(param.get("entityType"))
-					.getEngine();
+		entity = factory.createEntity(entityRepr).getEngine();
 		return this;
 	}
 
@@ -52,17 +47,17 @@ public class EngineLeafFlow implements FeatureFlow<EngineEntity> {
 	public String inject() {	
 		//TODO thrown an exception if previous methods were not called.
 		//TODO: Thrown an exception if the resource is not "engine".
-		return mediator.inject(entity, param.get("resource"));
+		return mediator.inject(entity, resource);
 	}
 
 	@Override
 	public String getType() {
-		return param.get("entityType");
+		return entityRepr;
 	}
 
 	@Override
 	public String getResource() {
-		return param.get("resource");
+		return resource;
 	}
 
 	public EngineEntity getEntity() {

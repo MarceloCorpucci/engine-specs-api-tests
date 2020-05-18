@@ -12,6 +12,8 @@ import com.engine.specs.api.entity.InjectionMapEntity;
 import com.engine.specs.api.entity.User;
 import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
+import com.engine.specs.api.flow.composite.EngineLeafFlow;
+import com.engine.specs.api.flow.composite.WarningPresetCompositeFlow;
 import com.engine.specs.api.mediator.ScenarioMediator;
 import com.engine.specs.api.mediator.component.Authenticator;
 import com.engine.specs.api.mediator.component.DataCleaner;
@@ -22,6 +24,9 @@ import com.engine.specs.api.mediator.component.ParamLoader;
 import io.restassured.specification.RequestSpecification;
 
 public class TestPostInjectionMap {
+	private EngineLeafFlow engineFlow;
+	private WarningPresetCompositeFlow warnPresetFlow;
+
 	private DomainEntityFactory entityFactory;
 	
 	private EngineEntity engine;
@@ -42,42 +47,65 @@ public class TestPostInjectionMap {
 	public void setUp() {
 		this.initEntities();
 		
-		engine = entityFactory
-					.createEntity("engine_min_repr")
-					.getEngine();
+//		engine = entityFactory
+//					.createEntity("engine_min_repr")
+//					.getEngine();
+//		
+//		engineResource = mediator.commonParams().getProperty("engineResource");
+//		mediator.inject(engine, engineResource);
+//		
+//		warningPreset = entityFactory
+//							.createEntity("warning_preset_default")
+//							.getWarningPreset();
+//		
+//		warningPreset.setEngine(engine);
+//		
+//		warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
+//		mediator.inject(warningPreset, warnPresetResource);
+//		
+//		ecu = entityFactory
+//				.createEntity("ecu_default")
+//				.getEcu();
+//		
+//		ecu.setEngine(engine);
+//		ecu.setWarningPreset(warningPreset);
+//		User user = new User();
+//		user.setEmail(mediator.testParams().getProperty("email"));
+//		ecu.setUser(user);
+//		
+//		ecuResource = mediator.commonParams().getProperty("ecuResource");
+//		mediator.inject(ecu, ecuResource);
+//		
+//		injectionMapResource = mediator.commonParams().getProperty("injectionMapResource");
+//		injectionMap = entityFactory
+//							.createEntity("injection_map_default")
+//							.getInjectionMap();
+//		
+//		injectionMap.setEcu(ecu);
+//		injectionMap.setUser(user);
 		
-		engineResource = mediator.commonParams().getProperty("engineResource");
-		mediator.inject(engine, engineResource);
+		engineFlow
+			.defineEntityRepr("entityType").getParameterizedResource("engine_min_repr")
+			.defineEntityRepr("resource").getParameterizedResource(mediator
+											.commonParams()
+											.getProperty("engineResource"));
+
+		warnPresetFlow
+			.defineEntityRepr("entityType").getParameterizedResource("warning_preset_default")
+			.defineEntityRepr("resource").getParameterizedResource(mediator
+											.commonParams()
+											.getProperty("warnPresetResource"));
 		
-		warningPreset = entityFactory
-							.createEntity("warning_preset_default")
-							.getWarningPreset();
-		
-		warningPreset.setEngine(engine);
-		
-		warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
-		mediator.inject(warningPreset, warnPresetResource);
-		
-		ecu = entityFactory
-				.createEntity("ecu_default")
-				.getEcu();
-		
-		ecu.setEngine(engine);
-		ecu.setWarningPreset(warningPreset);
-		User user = new User();
-		user.setEmail(mediator.testParams().getProperty("email"));
-		ecu.setUser(user);
-		
-		ecuResource = mediator.commonParams().getProperty("ecuResource");
-		mediator.inject(ecu, ecuResource);
-		
-		injectionMapResource = mediator.commonParams().getProperty("injectionMapResource");
-		injectionMap = entityFactory
-							.createEntity("injection_map_default")
-							.getInjectionMap();
-		
-		injectionMap.setEcu(ecu);
-		injectionMap.setUser(user);
+	
+//		warnPreset = warnPresetFlow
+//						.defineParam("entityType").as("warning_preset_default")
+//						.defineParam("resource").as(warnPresetResource)
+//						.addChildEntity(engineFlow)
+//						.usingFactory(entityFactory)
+//						.injectingThrough(mediator)
+//						.createInstance()
+//						.injectChildren()
+//						.getEntity();
 		
 		request = given()
 					.contentType("application/json")
@@ -113,6 +141,9 @@ public class TestPostInjectionMap {
 		
 		ParamLoader paramLoader = new ParamLoader();
 		Authenticator authenticator = new Authenticator();
+		
+		engineFlow = new EngineLeafFlow();
+		warnPresetFlow = new WarningPresetCompositeFlow();
 		
 		DataInjector<EngineEntity> engineInjector = new DataInjector<EngineEntity>();
 		DataInjector<WarningPresetEntity> warnPresetInjector = new DataInjector<WarningPresetEntity>();

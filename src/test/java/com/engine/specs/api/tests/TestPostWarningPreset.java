@@ -26,27 +26,23 @@ public class TestPostWarningPreset {
 	private EngineLeafFlow engineFlow;
 	private WarningPresetCompositeFlow warnPresetFlow;
 	private RequestSpecification request;
-	private String engineResource;
-	private String warnPresetResource;
 	private WarningPresetEntity warnPreset;
 	
 	@Before
 	public void setUp() {
 		this.initEntities();
-		this.engineResource = mediator.commonParams().getProperty("engineResource");
-		this.warnPresetResource = mediator.commonParams().getProperty("warnPresetResource");
-
 		
 		engineFlow
-			.defineParam("entityType").as("engine_min_repr")
-			.defineParam("resource").as(engineResource);
+			.coordinateWith(mediator)
+			.getParameterizedResource("engineResource")
+			.defineEntityRepr("engine_min_repr");
 		
 		warnPreset = warnPresetFlow
-						.defineParam("entityType").as("warning_preset_default")
-						.defineParam("resource").as(warnPresetResource)
+						.coordinateWith(mediator)
+						.getParameterizedResource("warnPresetResource")
+						.defineEntityRepr("warning_preset_default")
 						.addChildEntity(engineFlow)
 						.usingFactory(entityFactory)
-						.injectingThrough(mediator)
 						.createInstance()
 						.injectChildren()
 						.getEntity();
@@ -63,7 +59,7 @@ public class TestPostWarningPreset {
 	public void warnPresetCreatedShouldHaveProperStatusCode() {
 		request
 			.when()
-				.post(mediator.testParams().getProperty("endPoint") + warnPresetResource)
+				.post(mediator.testParams().getProperty("endPoint") + warnPresetFlow.getResource())
 			.then()
 				.assertThat()
 				.statusCode(201)
@@ -73,8 +69,8 @@ public class TestPostWarningPreset {
 	
 	@After
 	public void tearDown() {
-		mediator.cleanUp("name", warnPreset.getName(), warnPresetResource);
-		mediator.cleanUp("model", warnPreset.getEngine().getModel(), engineResource);
+		mediator.cleanUp("name", warnPreset.getName(), warnPresetFlow.getResource());
+		mediator.cleanUp("model", warnPreset.getEngine().getModel(), engineFlow.getResource());
 	}
 	
 	private void initEntities() {

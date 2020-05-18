@@ -1,9 +1,7 @@
 package com.engine.specs.api.flow.composite;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.engine.specs.api.entity.EngineEntity;
 import com.engine.specs.api.entity.WarningPresetEntity;
@@ -15,8 +13,8 @@ public class WarningPresetCompositeFlow implements FeatureFlow<WarningPresetEnti
 	private DomainEntityFactory factory;
 	//TODO thrown an exception if mediator is passed without previos steps (auth, etc)
 	private ScenarioMediator mediator;
-	private String paramName;
-	private Map<String, String> param = new HashMap<String, String>();;
+	private String entityRepr;
+	private String resource;
 	private WarningPresetEntity entity;
 	
     public WarningPresetCompositeFlow addChildEntity(FeatureFlow<?> entity) {
@@ -31,29 +29,27 @@ public class WarningPresetCompositeFlow implements FeatureFlow<WarningPresetEnti
 	}
 
 	@Override
-	public WarningPresetCompositeFlow injectingThrough(ScenarioMediator mediator) {
+	public WarningPresetCompositeFlow coordinateWith(ScenarioMediator mediator) {
 		this.mediator = mediator;
 		return this;
 	}
 	
 	@Override
-	public WarningPresetCompositeFlow defineParam(String paramName) {
-		this.paramName = paramName;
+	public WarningPresetCompositeFlow getParameterizedResource(String name) {
+		//TODO thrown an exception if mediator is not set.
+		this.resource = mediator.commonParams().getProperty(name);
 		return this;
 	}
-	
+
 	@Override
-	public WarningPresetCompositeFlow as(String paramValue) {
-		//TODO thrown an exception if paramName is not defined.
-		this.param.put(paramName, paramValue);
+	public WarningPresetCompositeFlow defineEntityRepr(String name) {
+		this.entityRepr = name;
 		return this;
 	}
 	
 	@Override
 	public WarningPresetCompositeFlow createInstance() {
-		entity = factory
-					.createEntity(param.get("entityType"))
-					.getWarningPreset();
+		entity = factory.createEntity(entityRepr).getWarningPreset();
 		return this;
 	}
 	
@@ -77,17 +73,17 @@ public class WarningPresetCompositeFlow implements FeatureFlow<WarningPresetEnti
 	public String inject() {	
 		//TODO thrown an exception if previous methods were not called.
 		//TODO: Thrown an exception if the resource is not "WarnPreset".		
-		return mediator.inject(entity, param.get("resource"));
+		return mediator.inject(entity, resource);
 	}
 
 	@Override
 	public String getType() {
-		return param.get("entityType");
+		return entityRepr;
 	}
 
 	@Override
 	public String getResource() {
-		return param.get("resource");
+		return resource;
 	}
 	
 	public WarningPresetEntity getEntity() {
