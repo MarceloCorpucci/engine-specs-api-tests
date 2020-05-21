@@ -20,5 +20,5 @@
     ],
     "date": "2020-01-01 12:00:00",
     "ecu": {"model": "VirtualEcu-1"},
-    "user": {"email": "user1@gmail.com"}
+    "user": {"email": "testing.user@gmail.com"}
 }

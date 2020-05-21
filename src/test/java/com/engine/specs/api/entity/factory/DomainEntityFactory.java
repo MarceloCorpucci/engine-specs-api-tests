@@ -3,10 +3,12 @@ package com.engine.specs.api.entity.factory;
 import com.engine.specs.api.entity.EcuEntity;
 import com.engine.specs.api.entity.EngineEntity;
 import com.engine.specs.api.entity.InjectionMapEntity;
+import com.engine.specs.api.entity.UserEntity;
 import com.engine.specs.api.entity.WarningPresetEntity;
 
 public class DomainEntityFactory {
 	private String type;
+	private UserLoader userLoader;
 	private EngineLoader engineLoader;
 	private WarningPresetLoader warningPresetLoader;
 	private EcuLoader ecuLoader;
@@ -14,6 +16,10 @@ public class DomainEntityFactory {
 	
 	public DomainEntityFactory createEntity(String type) {
 		this.type = type;
+		
+		if(type.contains("user")) {
+			userLoader = new UserLoader();
+		}
 		
 		if (type.contains("engine")) {
 			engineLoader =  new EngineLoader();
@@ -32,6 +38,10 @@ public class DomainEntityFactory {
 		}
 		
 		return this;
+	}
+	
+	public UserEntity getUser() {
+		return userLoader.get(type).fromJsonResource();
 	}
 	
 	public EngineEntity getEngine() {

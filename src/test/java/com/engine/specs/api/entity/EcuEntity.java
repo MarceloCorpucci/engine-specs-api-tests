@@ -16,7 +16,7 @@ public class EcuEntity {
 	private Date dateAdded;
 	private EngineEntity engine;
 	private WarningPresetEntity warningPreset;
-	private User user;
+	private UserEntity user;
 	
 	public void setModel(String model) {
 		this.model = model;
@@ -66,11 +66,11 @@ public class EcuEntity {
 	}
 	
 	@JsonGetter("user")
-	public User getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 	
-	public void setUser(User user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 	

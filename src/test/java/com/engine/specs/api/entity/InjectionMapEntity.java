@@ -12,7 +12,7 @@ public class InjectionMapEntity {
 	private List<Map<String, List<Float>>> map;
 	private Date date;
 	private EcuEntity ecu;
-	private User user;
+	private UserEntity user;
 	
 	@JsonCreator
 	public InjectionMapEntity(@JsonProperty("map")
@@ -25,7 +25,7 @@ public class InjectionMapEntity {
 							  @JsonProperty("ecu")
 							  EcuEntity ecu,
 							  @JsonProperty("user")
-							  User user) {
+							  UserEntity user) {
 	    this.map = map;
 	    this.date = date;
 	    this.ecu = ecu;
@@ -56,11 +56,11 @@ public class InjectionMapEntity {
 		this.ecu = ecu;
 	}
 	
-	public User getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 	
-	public void setUser(User user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 }

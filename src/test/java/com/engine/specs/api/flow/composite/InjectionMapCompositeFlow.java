@@ -6,12 +6,12 @@ import java.util.List;
 import com.engine.specs.api.entity.EcuEntity;
 import com.engine.specs.api.entity.EngineEntity;
 import com.engine.specs.api.entity.InjectionMapEntity;
-import com.engine.specs.api.entity.User;
+import com.engine.specs.api.entity.UserEntity;
 import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.mediator.ScenarioMediator;
 
-public class InjectionMapCompositeFlow implements FeatureFlow<EcuEntity> {
+public class InjectionMapCompositeFlow implements FeatureFlow<InjectionMapEntity> {
 	private List<FeatureFlow<?>> childEntities = new ArrayList<FeatureFlow<?>>();
 	private DomainEntityFactory factory;
 	//TODO thrown an exception if mediator is passed without previos steps (auth, etc)
@@ -58,19 +58,39 @@ public class InjectionMapCompositeFlow implements FeatureFlow<EcuEntity> {
 	
 	public InjectionMapCompositeFlow injectChildren() {
 		//TODO thrown an exception if createInstance was not called due entity object must be instanciated beforehand.
+		EngineEntity engine = null;
+		WarningPresetEntity warningPreset = null;
 		EcuEntity ecu = null;
-		User user = null;
+		UserEntity user = null;
 		
 		for(FeatureFlow<?> currentEntity : childEntities) {
-			if(currentEntity.getType().contains("ecu")) {
-				ecu = (EcuEntity) currentEntity.usingFactory(factory).createInstance().getEntity();
-				mediator.inject(ecu, currentEntity.getResource());
+			if(currentEntity.getType().contains("engine")) {
+				engine = (EngineEntity) currentEntity.usingFactory(factory).createInstance().getEntity();
+				mediator.inject(engine, currentEntity.getResource());
+			}
+			if(currentEntity.getType().contains("warning")) {
+				warningPreset = (WarningPresetEntity) currentEntity.usingFactory(factory).createInstance().getEntity();
+				warningPreset.setEngine(engine);
+				mediator.inject(warningPreset, currentEntity.getResource());
 			}
 			
 			if(currentEntity.getType().contains("user")) {
-				user = (User) currentEntity.createInstance().getEntity();
+				user = (UserEntity) currentEntity.usingFactory(factory).createInstance().getEntity();
 			}
+			
+			if(currentEntity.getType().contains("ecu")) {
+				ecu = (EcuEntity) currentEntity.usingFactory(factory).createInstance().getEntity();
+				ecu.setEngine(engine);
+				ecu.setWarningPreset(warningPreset);
+				ecu.setUser(user);
+				mediator.inject(ecu, currentEntity.getResource());
+			}
+
 		}
+		
+//		warningPreset.setEngine(engine);
+//		ecu.setWarningPreset(warningPreset);
+//		ecu.setUser(user);
 		
 		entity.setEcu(ecu);
 		entity.setUser(user);
@@ -80,26 +100,26 @@ public class InjectionMapCompositeFlow implements FeatureFlow<EcuEntity> {
 
 	@Override
 	public String inject() {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO thrown an exception if previous methods were not called.
+		//TODO: Thrown an exception if the resource is not "InjectionMap".		
+		//Pending to implement InjectionMap injector.
+		//return mediator.inject(entity, resource);
+		return "";
 	}
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return entityRepr;
 	}
 
 	@Override
 	public String getResource() {
-		// TODO Auto-generated method stub
-		return null;
+		return resource;
 	}
 
 	@Override
-	public EcuEntity getEntity() {
-		// TODO Auto-generated method stub
-		return null;
+	public InjectionMapEntity getEntity() {
+		return entity;
 	}
 
 }

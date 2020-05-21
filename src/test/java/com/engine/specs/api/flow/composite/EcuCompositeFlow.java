@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.engine.specs.api.entity.EcuEntity;
 import com.engine.specs.api.entity.EngineEntity;
-import com.engine.specs.api.entity.User;
+import com.engine.specs.api.entity.UserEntity;
 import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.mediator.ScenarioMediator;
@@ -33,33 +33,33 @@ public class EcuCompositeFlow implements FeatureFlow<EcuEntity> {
 	@Override
 	public EcuCompositeFlow coordinateWith(ScenarioMediator mediator) {
 		this.mediator = mediator;
-		return null;
+		return this;
 	}
 
 	@Override
 	public EcuCompositeFlow getParameterizedResource(String name) {
 		//TODO thrown an exception if mediator is not set.
 		this.resource = mediator.commonParams().getProperty(name);
-		return null;
+		return this;
 	}
 
 	@Override
 	public EcuCompositeFlow defineEntityRepr(String name) {
 		this.entityRepr = name;
-		return null;
+		return this;
 	}
 
 	@Override
 	public EcuCompositeFlow createInstance() {
 		entity = factory.createEntity(entityRepr).getEcu();
-		return null;
+		return this;
 	}
 	
 	public EcuCompositeFlow injectChildren() {
 		//TODO thrown an exception if createInstance was not called due entity object must be instanciated beforehand.
 		EngineEntity engine = null;
 		WarningPresetEntity warningPreset = null;
-		User user = null;
+		UserEntity user = null;
 		
 		for(FeatureFlow<?> currentEntity : childEntities) {
 			if(currentEntity.getType().contains("engine")) {
@@ -73,7 +73,7 @@ public class EcuCompositeFlow implements FeatureFlow<EcuEntity> {
 			}
 			
 			if(currentEntity.getType().contains("user")) {
-				user = (User) currentEntity.createInstance().getEntity();
+				user = (UserEntity) currentEntity.createInstance().getEntity();
 			}
 		}
 		
@@ -99,7 +99,7 @@ public class EcuCompositeFlow implements FeatureFlow<EcuEntity> {
 	@Override
 	public String getResource() {
 		// TODO Auto-generated method stub
-		return null;
+		return resource;
 	}
 
 	@Override

@@ -1,20 +1,20 @@
 package com.engine.specs.api.flow.composite;
 
-import com.engine.specs.api.entity.User;
+import com.engine.specs.api.entity.UserEntity;
 import com.engine.specs.api.entity.factory.DomainEntityFactory;
 import com.engine.specs.api.mediator.ScenarioMediator;
 
-public class UserLeafFlow implements FeatureFlow<User> {
-//	private DomainEntityFactory factory;
+public class UserLeafFlow implements FeatureFlow<UserEntity> {
+	private DomainEntityFactory factory;
 	//TODO thrown an exception if mediator is passed without previos steps (auth, etc)
 	private ScenarioMediator mediator;
 	private String entityRepr;
 	private String resource;
-	private User entity;
+	private UserEntity entity;
 
 	@Override
 	public UserLeafFlow usingFactory(DomainEntityFactory factory) {
-//		this.factory = factory;
+		this.factory = factory;
 		return this;
 	}
 
@@ -39,18 +39,15 @@ public class UserLeafFlow implements FeatureFlow<User> {
 
 	@Override
 	public UserLeafFlow createInstance() {
-		//TODO Implement a factory for Users.
-		entity.setEmail(mediator.testParams().getProperty("email"));
+		entity = factory.createEntity(entityRepr).getUser();
 		return this;
 	}
 
 	@Override
 	public String inject() {
 		//TODO thrown an exception if previous methods were not called.
-		//TODO: Thrown an exception if the resource is not "engine".
-		
-		// return mediator.inject(entity, resource);
-		return "";
+		//TODO: Thrown an exception if the resource is not "user".
+		return mediator.inject(entity, resource);
 	}
 
 	@Override
@@ -63,7 +60,7 @@ public class UserLeafFlow implements FeatureFlow<User> {
 		return resource;
 	}
 
-	public User getEntity() {
+	public UserEntity getEntity() {
 		return entity;
 	}
 }

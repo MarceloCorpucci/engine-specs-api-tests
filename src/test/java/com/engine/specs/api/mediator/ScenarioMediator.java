@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import com.engine.specs.api.entity.EcuEntity;
 import com.engine.specs.api.entity.EngineEntity;
+import com.engine.specs.api.entity.UserEntity;
 import com.engine.specs.api.entity.WarningPresetEntity;
 import com.engine.specs.api.entity.builder.Engine;
 import com.engine.specs.api.mediator.component.Authenticator;
@@ -15,6 +16,7 @@ import com.engine.specs.api.mediator.component.ParamLoader;
 public class ScenarioMediator {
 	private ParamLoader paramLoader;
 	private Authenticator authenticator;
+	private DataInjector<UserEntity> userInjector;
 	private DataInjector<Engine> dataInjector;
 	private DataInjector<EngineEntity> engineInjector;
 	private DataInjector<WarningPresetEntity> warnPresetInjector;
@@ -31,6 +33,11 @@ public class ScenarioMediator {
 	public void setAuthenticator(Authenticator authenticator) {
 		this.authenticator = authenticator;
 		this.authenticator.setMediator(this);
+	}
+	
+	public void setUserInjector(DataInjector<UserEntity> userInjector) {
+		this.userInjector = userInjector;
+		this.userInjector.setMediator(this);
 	}
 
 	public void setDataInjector(DataInjector<Engine> dataInjector) {
@@ -83,6 +90,10 @@ public class ScenarioMediator {
 	
 	public String authenticate() {
 		return this.authenticator.authenticate();	
+	}
+	
+	public String inject(UserEntity user, String resource) {
+		return this.userInjector.inject(user).in(resource);
 	}
 	
 	public String inject(Engine entity, String resource) {

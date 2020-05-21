@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName(value = "user")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User {
+public class UserEntity {
 	private String email;
 	private String password;
 
