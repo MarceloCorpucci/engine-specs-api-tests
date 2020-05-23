@@ -35,9 +35,6 @@ public class TestPostInjectionMap {
 	
 	private DomainEntityFactory entityFactory;
 	
-	private EngineEntity engine;
-	private WarningPresetEntity warningPreset;
-	private EcuEntity ecu;
 	private InjectionMapEntity injectionMap;
 	
 	private ScenarioMediator mediator;
@@ -104,10 +101,10 @@ public class TestPostInjectionMap {
 	@After
 	public void tearDown() {
 		mediator.cleanUp("ecu", injectionMap.getEcu().getModel(), injectionMapFlow.getResource());
-		mediator.cleanUp("model", ecu.getModel(), ecuFlow.getResource());
-		mediator.cleanUp("name", warningPreset.getName(), warnPresetFlow.getResource());
-		mediator.cleanUp("model", engine.getModel(), engineFlow.getResource());
-//		mediator.cleanUp("USER!!!", engine.getModel(), engineFlow.getResource());
+		mediator.cleanUp("model", injectionMap.getEcu().getModel(), ecuFlow.getResource());
+		mediator.cleanUp("name", injectionMap.getEcu().getWarningPreset().getName(), warnPresetFlow.getResource());
+		mediator.cleanUp("model", injectionMap.getEcu().getWarningPreset().getEngine().getModel(), engineFlow.getResource());
+		mediator.cleanUp("user", injectionMap.getUser().getEmail(), userFlow.getResource());
 	}
 	
 	private void initEntities() {

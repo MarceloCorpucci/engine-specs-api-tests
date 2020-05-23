@@ -15,6 +15,7 @@ public class DataCleaner {
 	
 	public int cleanUp(String property, String value, String resource) {
 		String id = with()
+						.urlEncodingEnabled(false)
 						.contentType("application/json")
 						.get("/" + getResourceSegment(resource) + "/" + property + "/" + value)
 						.getBody()

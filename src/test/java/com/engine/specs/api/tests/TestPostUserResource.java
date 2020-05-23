@@ -57,7 +57,8 @@ public class TestPostUserResource {
 	
 	@After
 	public void tearDown() {
-		mediator.cleanUp(userId, userFlow.getResource());
+//		mediator.cleanUp(userId, userFlow.getResource());
+		mediator.cleanUp("user", user.getEmail(), userFlow.getResource());
 	}
 	
 	private void initEntities() {

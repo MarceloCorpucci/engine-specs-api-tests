@@ -76,6 +76,7 @@ public class InjectionMapCompositeFlow implements FeatureFlow<InjectionMapEntity
 			
 			if(currentEntity.getType().contains("user")) {
 				user = (UserEntity) currentEntity.usingFactory(factory).createInstance().getEntity();
+				mediator.inject(user, currentEntity.getResource());
 			}
 			
 			if(currentEntity.getType().contains("ecu")) {
