@@ -104,7 +104,7 @@ public class TestPostInjectionMap {
 		mediator.cleanUp("model", injectionMap.getEcu().getModel(), ecuFlow.getResource());
 		mediator.cleanUp("name", injectionMap.getEcu().getWarningPreset().getName(), warnPresetFlow.getResource());
 		mediator.cleanUp("model", injectionMap.getEcu().getWarningPreset().getEngine().getModel(), engineFlow.getResource());
-		mediator.cleanUp("user", injectionMap.getUser().getEmail(), userFlow.getResource());
+		mediator.cleanUp("email", injectionMap.getUser().getEmail(), userFlow.getResource());
 	}
 	
 	private void initEntities() {
