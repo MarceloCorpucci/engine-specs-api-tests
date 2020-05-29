@@ -89,10 +89,6 @@ public class InjectionMapCompositeFlow implements FeatureFlow<InjectionMapEntity
 
 		}
 		
-//		warningPreset.setEngine(engine);
-//		ecu.setWarningPreset(warningPreset);
-//		ecu.setUser(user);
-		
 		entity.setEcu(ecu);
 		entity.setUser(user);
 		
